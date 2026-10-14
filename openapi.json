@@ -1,0 +1,323 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FactStamp",
+    "version": "0.1.3",
+    "description": "Use before you name a company in a contract, invoice, filing or supplier record, before you quote a number or date you did not compute yourself, or when you need an LEI or CIK. Paid verification for agents: cited, dated answers with a signed receipt that verifies offline. $0.02–$0.10 per call in USDC on Base over x402, packs by card or PayPal: POST /packs/paypal/checkout returns a buyer approval link and an order id, the buyer approves it, and the code is then read once at GET /packs/claim?session_id=… (poll first with &peek=1).",
+    "contact": {
+      "name": "FactStamp support",
+      "email": "info@alpineai.com.au",
+      "url": "https://agents.factstamp.dev/privacy"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://agents.factstamp.dev"
+    }
+  ],
+  "x-discovery": {
+    "kind": "resource-server",
+    "network": "base",
+    "payTo": "0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32",
+    "mcp": "https://agents.factstamp.dev/mcp",
+    "price_usd": 0.05,
+    "amount_base_units": "50000",
+    "prices_usd": {
+      "check_figure": {
+        "usd": 0.05,
+        "base_units": "50000"
+      },
+      "check_entity": {
+        "usd": 0.1,
+        "base_units": "100000"
+      },
+      "check_entity_file": {
+        "usd": 0.438119,
+        "base_units": "438119"
+      },
+      "verify_citation": {
+        "usd": 0.02,
+        "base_units": "20000"
+      },
+      "verify_package": {
+        "usd": 0.02,
+        "base_units": "20000"
+      },
+      "watch_add": {
+        "usd": 0.5,
+        "base_units": "500000"
+      },
+      "watch_portfolio": {
+        "usd": 5,
+        "base_units": "5000000"
+      },
+      "verify_bulk": {
+        "usd": 0.12,
+        "base_units": "120000"
+      },
+      "check_document": {
+        "usd": 0.25,
+        "base_units": "250000"
+      }
+    }
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Liveness",
+        "operationId": "health",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    },
+    "/series.json": {
+      "get": {
+        "summary": "Coverage: every series this engine will judge against",
+        "operationId": "seriesJson",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "coverage table"
+          }
+        }
+      }
+    },
+    "/samples": {
+      "get": {
+        "summary": "Frozen sample verdicts, no wallet required",
+        "operationId": "samples",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "samples"
+          }
+        }
+      }
+    },
+    "/entity": {
+      "post": {
+        "summary": "Entity verification, funded by a prepaid pack code sent as a bearer token. No code, or an unusable one, returns the x402 challenge so a client can pay per call instead.",
+        "operationId": "entity",
+        "responses": {
+          "200": {
+            "description": "cited entity lookup"
+          },
+          "402": {
+            "description": "no usable pack code; x402 accepts[] returned"
+          }
+        }
+      }
+    },
+    "/entity-file": {
+      "post": {
+        "summary": "The entity file: one paid answer holding everything we hold about one company — identity and standing, registered office, SIC activity and previous names, filing position, a sanctions screen across five lists, and the ownership the registers publish (the persons with significant control where a register publishes them, and the declared parent relationships where a company has an LEI, with beneficial ownership stated as not public in nearly every country we cover) — with ONE coverage block naming every register consulted and every one not consulted. Priced in pence (33p) and settled in USDC at the dated rate. Same pack-code funding as /entity; without a usable code it returns the x402 challenge.",
+        "operationId": "entity_file",
+        "responses": {
+          "200": {
+            "description": "the entity file, with one signed receipt"
+          },
+          "402": {
+            "description": "no usable pack code; x402 accepts[] returned"
+          }
+        }
+      }
+    },
+    "/citation": {
+      "post": {
+        "summary": "Citation verification (DOI, arXiv ID or title) with retraction status, cited to Crossref and arXiv. Same pack-code funding as /entity; without a usable code it returns the x402 challenge.",
+        "operationId": "citation",
+        "responses": {
+          "200": {
+            "description": "cited citation lookup"
+          },
+          "402": {
+            "description": "no usable pack code; x402 accepts[] returned"
+          }
+        }
+      }
+    },
+    "/package": {
+      "post": {
+        "summary": "Dependency verification: does this package@version exist, is it yanked or deprecated, and what advisories does OSV list against it. Same pack-code funding as /entity.",
+        "operationId": "package",
+        "responses": {
+          "200": {
+            "description": "cited dependency lookup"
+          },
+          "402": {
+            "description": "no usable pack code; x402 accepts[] returned"
+          }
+        }
+      }
+    },
+    "/check": {
+      "post": {
+        "summary": "Figure verification on the pack rail: a dated figure claim, cited to a dated primary source. Same pack-code funding as /entity; without a usable code it returns the x402 challenge (US$0.05 on the per-call rail).",
+        "operationId": "check",
+        "responses": {
+          "200": {
+            "description": "cited figure verification"
+          },
+          "402": {
+            "description": "no usable pack code; x402 accepts[] returned"
+          }
+        }
+      }
+    },
+    "/watch": {
+      "post": {
+        "summary": "Start a watch: US$0.50 (or 10 answer-pack credits) buys 30 days of daily re-checks of one citation or one package version, each real change receipted. Without a usable code it returns the x402 challenge.",
+        "operationId": "watch_add",
+        "responses": {
+          "200": {
+            "description": "watch created; token returned once"
+          },
+          "402": {
+            "description": "no usable pack code; x402 accepts[] returned"
+          }
+        }
+      }
+    },
+    "/watch/portfolio": {
+      "post": {
+        "summary": "Buy one portfolio: up to 25 references, one token, 30 days, US$0.20 a reference (about 0.67 of a cent a check) — 4 answer-pack credits a reference. Every reference is an ordinary watch row. GET /portfolio/<id> with the token reads it; POST /portfolio/<id>/stop stops every member.",
+        "operationId": "watch_portfolio",
+        "responses": {
+          "200": {
+            "description": "portfolio created; token returned once; every member's first check answered"
+          },
+          "402": {
+            "description": "not enough answer-pack credits (a lookup pack cannot fund a watch); x402 accepts[] returned"
+          }
+        }
+      }
+    },
+    "/bulk": {
+      "post": {
+        "summary": "Check a whole list: up to 25 items on the pack rail (one answer-pack credit per three items, or one credit an item on a lookup pack), or up to 12 items at a flat US$0.12 on the per-call rail. Each item answered by the same door that answers a single call, and one signed receipt covers the list.",
+        "operationId": "verify_bulk",
+        "responses": {
+          "200": {
+            "description": "per-item verdicts plus one receipt over the list"
+          },
+          "402": {
+            "description": "the list is longer than the pack can cover, or no usable code; nothing is charged"
+          }
+        }
+      }
+    },
+    "/document": {
+      "post": {
+        "summary": "Check a whole document: the claims that can be verified against a primary source, each answered by the door that owns it with its own signed receipt, plus one receipt over the document. Extraction is mechanical, so the claim list and the count are reproducible from the document alone. Send {\"preview\": true} for the free preview: the claims and the exact price, with no verdict and nothing charged. US$0.25 for up to 5 claims on the per-call rail; 5 cents a claim on the pack rail with an answer pack, or 2 cents for a citation or package claim on a lookup pack, up to 25 claims. A claim that produces no answer is not charged for.",
+        "operationId": "check_document",
+        "responses": {
+          "200": {
+            "description": "per-claim verdicts and receipts, plus one document receipt"
+          },
+          "402": {
+            "description": "the document's chargeable claims exceed what the pack can cover — refused before any work; or no usable code, so the x402 accepts[] is returned"
+          }
+        }
+      }
+    },
+    "/verify": {
+      "get": {
+        "summary": "What the receipt verifier expects (free; POST a receipt to check one)",
+        "operationId": "verifyHelp",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "usage"
+          }
+        }
+      },
+      "post": {
+        "summary": "Courtesy check of a signed receipt. Offline verification against /.well-known/factstamp-issuer.json is the mechanism that does not depend on us being online.",
+        "operationId": "verifyReceipt",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "verdict on the receipt"
+          },
+          "400": {
+            "description": "no receipt supplied"
+          },
+          "503": {
+            "description": "this deployment has no signing key"
+          }
+        }
+      }
+    },
+    "/mcp": {
+      "post": {
+        "summary": "MCP Streamable HTTP (x402 on paid tools)",
+        "operationId": "mcp",
+        "x-x402": {
+          "paymentRequired": true,
+          "tools": [
+            "check_figure",
+            "check_entity",
+            "check_entity_file",
+            "verify_citation",
+            "verify_package",
+            "check_document"
+          ],
+          "free_tools": [
+            "list_series",
+            "route_claim"
+          ],
+          "amount": "50000",
+          "price_usd": 0.05,
+          "prices_usd": {
+            "check_figure": {
+              "usd": 0.05,
+              "base_units": "50000"
+            },
+            "check_entity": {
+              "usd": 0.1,
+              "base_units": "100000"
+            },
+            "check_entity_file": {
+              "usd": 0.438119,
+              "base_units": "438119"
+            },
+            "verify_citation": {
+              "usd": 0.02,
+              "base_units": "20000"
+            },
+            "verify_package": {
+              "usd": 0.02,
+              "base_units": "20000"
+            },
+            "watch_add": {
+              "usd": 0.5,
+              "base_units": "500000"
+            },
+            "watch_portfolio": {
+              "usd": 5,
+              "base_units": "5000000"
+            },
+            "verify_bulk": {
+              "usd": 0.12,
+              "base_units": "120000"
+            },
+            "check_document": {
+              "usd": 0.25,
+              "base_units": "250000"
+            }
+          },
+          "network": "base"
+        },
+        "responses": {
+          "200": {
+            "description": "JSON-RPC / SSE"
+          }
+        }
+      }
+    }
+  }
+}

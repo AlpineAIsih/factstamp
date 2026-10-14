@@ -1,0 +1,170 @@
+# FactStamp
+
+> A paid checkpoint for other agents' numbers and dates, and for whether a legal
+> entity actually exists. Not comfort. No model in the verdict path. Unknown is a
+> valid, first-class answer.
+
+- MCP: https://agents.factstamp.dev/mcp
+- Health: https://agents.factstamp.dev/health
+- Discovery: https://agents.factstamp.dev/.well-known/x402
+- Docs: https://agents.factstamp.dev/docs
+- Add it to an agent (vendor by vendor): https://agents.factstamp.dev/connect
+- Price list: https://agents.factstamp.dev/pricing.md
+- About: https://agents.factstamp.dev/about
+- Agent card: https://agents.factstamp.dev/.well-known/agent-card.json (MCP over HTTP: no A2A endpoint is implemented)
+- Privacy: https://agents.factstamp.dev/privacy
+- Terms: https://agents.factstamp.dev/terms
+- Coverage: https://agents.factstamp.dev/series.json
+- Version: 0.1.3
+- Network: base
+- Domain: figure and staleness verification against dated primary sources, and entity verification against open company registers (GLEIF LEI index, US SEC EDGAR, Australian Business Register via ABN Lookup)
+- Verdicts: verified | stale | contradicted | unknown (figures); found | ambiguous | not_found | unknown (entities)
+- payTo: 0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32
+- asset: USDC 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913
+
+## Paid tools ($0.05 USDC for the figure door, $0.10 for the entity door,
+## $0.438119 (33p UK, at the dated rate) for the entity file,
+## $0.02 for the citation and $0.02 for the package lookup)
+
+- check_figure — a dated figure claim in, a cited verdict out
+- check_entity — a company name, LEI or CIK in, a cited identity and registration status out
+- check_entity_file — the entity file: one paid answer holding everything we hold about one company.
+  Use it before you sign, onboard, pay or acquire, and whenever you want the whole picture in one call
+  rather than four separate facts. It holds identity and standing, the registered office, SIC activity
+  and previous names, the filing position, a sanctions screen across our five lists, and the ownership
+  the registers publish (the persons with significant control where a register publishes them, and the
+  declared parent relationships where a company has an LEI, with beneficial ownership stated as not
+  public in nearly every country we cover) — each cited to the register with its retrieval time — and ONE coverage
+  block naming every register consulted and every one NOT consulted. A register that was not read is
+  named as not read; unknown is a first-class answer. Priced at 33p UK-facing, settled in USDC at the
+  dated rate
+- verify_citation — a DOI, arXiv ID or title in; existence, details and retraction status out. Send
+  the title, authors, year and journal your document claims and each one is compared, field by field:
+  a disagreement is reported as mismatch, never as verified
+- verify_package — a package@version and ecosystem in; existence, yanked/deprecated and OSV advisories out.
+  An invented version returns not_found with the real versions nearest it, and an invented name returns
+  the published names that look like it — the slopsquat answer
+- Every one of them answers with a verdict, the source it rests on, and a signed receipt. The citation
+  and package doors name each source with its licence, compare your claim field by field where you sent
+  one, and list any warnings. The figure and entity doors name the source, its as-of date and the record
+  or reading the verdict rests on; on a prepaid pack, a figure claim that comes back unknown carries no
+  reading, because that check is not charged for on that rail
+
+## Standing work (priced above a single check, because it keeps working)
+
+- watch_add — watch one citation or one package version instead of checking it once. US$0.50 buys
+  30 days of daily re-checks: **1.7 cents a check**, cheaper than our own per-call lookup. The first
+  check is answered immediately, and every real change (a retraction, a new advisory, a yanked
+  version) is recorded with its own signed receipt, so a change is auditable months later. Read it at
+  GET /watch/<id> with the token the purchase returns, or send an https webhook at purchase and each
+  change is POSTed to it. Ten pack credits on the card rail, or on a pack bought with PayPal:
+  POST /packs/paypal/checkout returns a buyer approval link and an order id, the buyer approves it, and
+  the agent then reads the code once at GET /packs/claim?session_id=… (peek first with &peek=1)
+- watch_portfolio — watch a whole list instead of one entry at a time: up to 25 references in one
+  purchase, one token, 30 days, **20 cents a reference (about 0.67 of a cent a check)** — cheaper a
+  reference than watching each one separately. Every reference is an ordinary watch row, so a
+  portfolio verdict can never disagree with a single-call verdict; a duplicate reference is charged
+  once, and stopping the list stops every member. Read it at GET /portfolio/<id> with the purchase
+  token and stop it at POST /portfolio/<id>/stop; POST /watch/portfolio to buy one.
+- verify_bulk — check a whole bibliography or dependency manifest in one call: up to 12 items at a
+  flat US$0.12 on the per-call rail (**1 cent an item**, against 2 cents per call for the same
+  lookups), or POST /bulk with a pack code for up to 25 items — one answer-pack credit per three
+  items (US$0.0167 each), or one credit an item on a lookup pack. Every item is answered by the same
+  door that answers a single call, and one signed receipt covers the list
+
+## A whole document, in one call
+
+- check_document — send the text and get back the claims that can be verified against a primary
+  source, each answered by the door that owns it with its own signed receipt, plus one receipt over
+  the document itself. Extraction is mechanical, so the claim list and the count are reproducible
+  from your document alone; nothing is inferred and no model reads your text. US$0.25 for the first
+  5 claims on the per-call rail (5 cents a claim); POST /document with a pack code takes up to 25
+  claims at 5 cents a claim on an answer pack, or 2 cents for a citation or package claim on a lookup
+  pack. **The preview is
+  free** — POST the same body with "preview": true and you get the claims and the exact price before
+  anything is charged — and **a claim we could not answer is not charged for**
+
+## What the price buys: assurance, not a fetch
+
+Cheaper services will do the lookup. What they return is a string, and a string is only worth what
+the reader's trust in it is worth. Every answer here comes back with:
+
+- an **Ed25519 signed receipt** over the question, the verdict, the sources and the time, verifiable
+  offline by anyone you hand it to, with the public key published at /.well-known/factstamp-issuer.json
+  and a page for each receipt at /r/<receipt_id>;
+- **the sources named, with their licences wherever the source carries one**, so you can check us and
+  so you know what you may reuse;
+- a **mismatch verdict** where a lookalike is not allowed to read as verified, and per-field checks
+  when you supply the claim you want tested;
+- **silence when nothing changed**, on the standing work, rather than a daily notification you learn
+  to ignore.
+
+That is the assurance: after the fact, somebody who was not in the room can check what you were told,
+when, and on whose authority. It is the difference between a lookup and a record.
+
+## Free tools
+
+- list_series — coverage and the no-guess rule
+- route_claim — routing and extraction only, no verdict
+
+## Free pages (no wallet)
+
+- GET /series.json — the coverage table
+- GET /series — the same, human-readable
+- GET /samples — frozen sample verdicts
+- GET /SKILL.md — the agent skill
+- GET /.well-known/factstamp-issuer.json — the public key that receipts are signed with
+- POST /verify — courtesy receipt check (offline verification is the real mechanism)
+- GET /watch — what a watch is, what it costs, and how to read one
+- GET /r/<receipt_id> — a receipt as a page you can hand to somebody, with /r/<id>.json for machines
+  and /badge/<id>.svg for a badge of the verdict and its date, to display beside the claim
+
+## Receipts
+
+Every paid answer carries a signed receipt (Ed25519) over the question, the verdict,
+the citations relied on and the time - on both rails and on every door. Verify it
+offline against the public key above; do not trust our own /verify route as the only
+check. To recompute the answer_hash field, take the answer object served at
+`GET /r/<receipt_id>.json` (under `answer`) and canonicalise it: JSON with object
+keys sorted, no whitespace, and strings written the way JSON.stringify writes them, so
+non-ASCII stays UTF-8 rather than becoming a backslash-u escape. That route reproduces
+the field for every receipt we have published. Every door that answers publishes one, and where we
+could not store it the id comes back null rather than pointing at nothing: a portfolio purchase and a
+document that held nothing checkable publish no receipt at all, and say so. A door that
+answers one thing per call -
+/check, /entity, /citation, /package, /bulk - also returns that same answer inline,
+wrapped in our envelope: drop these keys and canonicalise what is left, and you get the
+same field
+
+- receipt, receipt_note, receipt_id, receipt_url, paid_with
+
+A door that answers many things at once - /document, /watch, /watch/portfolio - does not
+return the answer in that envelope. A document reply carries each claim's answer beside
+the claim's own fields (its index, offset and quote), and a watch reply carries the answer
+it was seeded from under `seeded_answer`, so dropping the envelope keys there does not
+leave an answer. Read the receipt instead: a document reply names each claim's receipt_id,
+and a watch or a portfolio names one per item. The envelope list above is held to the code
+by test/envelope.test.ts, which asserts it is the list the code exports and that dropping
+it leaves the answer and its hash. scripts/prove-recompute.mjs is the live proof: it buys an answer on
+every door that sells one, recomputes the served answer against the receipt page, and asserts the
+envelope-drop route holds on the doors that answer one thing per call. On the two doors that answer many
+things at once it asserts the same recomputation and states plainly that the envelope route is not
+available there, because their replies carry no answer in the envelope; it also holds this key list to
+the code, renders the entity receipt page, and reads the agent rail source to confirm no response is
+composed from a raw answer (a live call on that rail needs an x402 settlement, which the harness does not
+hold). A receipt proves who said it, what was asked
+and when. It does not prove the underlying fact: that rests on the cited source, which is
+named in the receipt.
+
+The price buys this, not the lookup. Public registers are free to read, and anything
+that only reads them is a commodity; what is not free is a record that survives an
+audit, a hand-off or a dispute, and that can be checked without asking us.
+
+## Do not
+
+- Treat a verdict as legal, financial or investment advice
+- Read verifiable_reward=1 as "the claim is true" — it means the figure matches
+  the publisher's own series as at the publisher's own as-of date
+- Treat verifiable_reward=0 as "the claim is false" — stale, contradicted and
+  unknown all return 0 for different reasons
+- Expect coverage outside the registry; coverage is pinned by registry_version; anything outside /series.json is unknown

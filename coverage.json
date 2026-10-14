@@ -1,0 +1,661 @@
+{
+  "coverage": "FactStamp entity-door coverage — what we verify, what we do NOT, and what it costs",
+  "version": "0.1.3",
+  "verified_on": "2026-10-10",
+  "jurisdictions": [
+    {
+      "code": "NO",
+      "jurisdiction": "Norway",
+      "currency": "NOK",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Beneficial owners are not public. The beneficial-owner API is restricted to banks, authorities and named civil-society bodies; we do not read it.",
+      "registers": [
+        {
+          "name": "Enhetsregisteret (Brønnøysund Register Centre)",
+          "url": "https://data.brreg.no/enhetsregisteret/api",
+          "licence": "NLOD 2.0",
+          "source_name": "no_register",
+          "code_path": "src/norway.ts"
+        }
+      ],
+      "verifiable": [
+        "company identity: name, organisation number, legal form",
+        "registered address and registration date",
+        "status flags straight from the register: VAT register, bankruptcy, winding-up, compulsory dissolution",
+        "industry code and employee count",
+        "corporate group structure: the parent and the chain of a registered group"
+      ],
+      "not_verifiable": [
+        "beneficial owners (closed)",
+        "the people behind the company (the roles surfaces are not read by this slice)",
+        "any personal identity number (never requested, never stored)"
+      ],
+      "price": {
+        "currency_code": "NOK",
+        "check_entity_display": "1.00 NOK",
+        "check_figure_display": "0.50 NOK",
+        "usd_buys": 9.5069,
+        "fx_basis": "ECB euro foreign exchange reference rates",
+        "fx_valuation_date": "2026-09-28"
+      },
+      "verified_on": "2026-10-10",
+      "status": "live"
+    },
+    {
+      "code": "FI",
+      "jurisdiction": "Finland",
+      "currency": "EUR",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Beneficial owners are not public: the Trade Register is explicit that entries are public except the beneficial-owner details. We do not read them.",
+      "registers": [
+        {
+          "name": "Business Information System (YTJ) — basic details",
+          "url": "https://avoindata.prh.fi/opendata-ytj-api/v3",
+          "licence": "CC BY 4.0",
+          "source_name": "fi_register",
+          "code_path": "src/finland.ts"
+        },
+        {
+          "name": "Registered notifications (Finnish Trade Register, since 7 Nov 2014)",
+          "url": "https://avoindata.prh.fi/opendata-registerednotices-api/v3",
+          "licence": "CC BY 4.0",
+          "source_name": "fi_register",
+          "code_path": "src/finland.ts"
+        },
+        {
+          "name": "Digital financial statement information (iXBRL filings)",
+          "url": "https://avoindata.prh.fi/opendata-xbrl-api/v3",
+          "licence": "CC BY 4.0",
+          "source_name": "fi_register",
+          "code_path": "src/finland.ts"
+        }
+      ],
+      "verifiable": [
+        "company identity: name (current and former), Business ID, legal form, EUID",
+        "registered address, registration dates",
+        "status: Trade Register, VAT register, company situations (restructuring, liquidation, bankruptcy)",
+        "industry code and website",
+        "registered notifications since 7 November 2014",
+        "which accounting periods have a DIGITALLY filed financial statement (iXBRL)"
+      ],
+      "not_verifiable": [
+        "beneficial owners (not public)",
+        "the people behind the company (the open data carries no natural persons)",
+        "company email addresses and phone numbers (not in the open data)",
+        "sole traders (toiminimiyrittäjä) — excluded from the open data entirely",
+        "financial figures other than the ~5% filed digitally (those are paid, via Virre)"
+      ],
+      "price": {
+        "currency_code": "EUR",
+        "check_entity_display": "0.10 EUR",
+        "check_figure_display": "0.05 EUR",
+        "usd_buys": 0.8789,
+        "fx_basis": "ECB euro foreign exchange reference rates",
+        "fx_valuation_date": "2026-09-28"
+      },
+      "verified_on": "2026-10-10",
+      "status": "live"
+    },
+    {
+      "code": "PL",
+      "jurisdiction": "Poland",
+      "currency": "PLN",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Beneficial owners are not public, and the KRS open API masks the personal names of natural persons by law. We read the mask and say so; we do not read any owner register.",
+      "registers": [
+        {
+          "name": "National Court Register (KRS) open API",
+          "url": "https://api-krs.ms.gov.pl/api/krs",
+          "licence": "open data (Act of 11 Aug 2021)",
+          "source_name": "pl_register",
+          "code_path": "src/poland.ts"
+        }
+      ],
+      "verifiable": [
+        "entity identity — BY KRS NUMBER ONLY: name, legal form, NIP, REGON when present",
+        "registered address, registration date, date of the last entry",
+        "the court that made the last entry",
+        "principal PKD activity codes",
+        "the COUNT of members of the representing body, and whether their names are masked",
+        "annual financial statements filed (the filing dates and periods)"
+      ],
+      "not_verifiable": [
+        "search by company NAME, NIP or REGON — the open API is keyed by KRS number only; there is no official keyless name route",
+        "personal names of the representing body — MASKED BY LAW in the open API (you get a count, not the names)",
+        "beneficial owners (not public)"
+      ],
+      "price": {
+        "currency_code": "PLN",
+        "check_entity_display": "0.40 PLN",
+        "check_figure_display": "0.20 PLN",
+        "usd_buys": 3.8434,
+        "fx_basis": "ECB euro foreign exchange reference rates",
+        "fx_valuation_date": "2026-09-28"
+      },
+      "verified_on": "2026-10-10",
+      "status": "live"
+    },
+    {
+      "code": "FR",
+      "jurisdiction": "France",
+      "currency": "EUR",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Beneficial owners are not public. The register PUBLISHES named directors for diffusible companies and HIDES them for companies flagged non-diffusible; true beneficial ownership is not published at all, and we read no owner register.",
+      "registers": [
+        {
+          "name": "API Recherche d'entreprises (base Sirene / Registre national des entreprises)",
+          "url": "https://recherche-entreprises.api.gouv.fr/docs/",
+          "licence": "Licence Ouverte 2.0 (Etalab)",
+          "source_name": "fr_register",
+          "code_path": "src/france.ts"
+        }
+      ],
+      "verifiable": [
+        "company identity: SIREN and SIRET, name and any sigle, legal-form code",
+        "registered office address",
+        "NAF/APE activity code and the NAF section",
+        "employee-band code and the employer flag",
+        "creation date and administrative status (active / ceased)",
+        "NAMED DIRECTORS: the role and name of each dirigeant, natural and legal persons, as the register publishes them",
+        "the year figures the register carries: turnover and net result",
+        "VAT number(s) when the register carries them",
+        "establishment counts (total and open)"
+      ],
+      "not_verifiable": [
+        "directors of a company flagged non-diffusible — the register hides them",
+        "companies refused RCS registration — absent from the register entirely",
+        "directors' birth dates — deliberately NOT carried by this slice",
+        "beneficial owners (not public)",
+        "the full Sirene bulk (this is the search API, not the bulk register)"
+      ],
+      "price": {
+        "currency_code": "EUR",
+        "check_entity_display": "0.10 EUR",
+        "check_figure_display": "0.05 EUR",
+        "usd_buys": 0.8789,
+        "fx_basis": "ECB euro foreign exchange reference rates",
+        "fx_valuation_date": "2026-09-28"
+      },
+      "verified_on": "2026-10-10",
+      "status": "live"
+    },
+    {
+      "code": "CZ",
+      "jurisdiction": "Czechia",
+      "currency": "CZK",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Beneficial owners are not public, and ARES publishes no officers, directors or owners at all. Those sit in the Justice.cz document collection of the commercial register, which we do not read.",
+      "registers": [
+        {
+          "name": "ARES — Administrativní registr ekonomických subjektů (Ministry of Finance)",
+          "url": "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty",
+          "licence": "public register data (ARES operating conditions)",
+          "source_name": "cz_register",
+          "code_path": "src/czechia.ts"
+        }
+      ],
+      "verifiable": [
+        "entity identity — BY IČO ONLY: name, IČO, legal-form code",
+        "VAT identification number (DIČ) when the entity is registered for VAT",
+        "registered seat and the delivery address",
+        "NACE activity codes",
+        "formation date and the register's own last-update date",
+        "the entity's status in each public source register ARES reports: ROS, VR, RES, RŽP, VAT/DPH and others"
+      ],
+      "not_verifiable": [
+        "search by company NAME — this slice reads ARES's IČO endpoint only; the register's separate SEARCH endpoint is not read",
+        "officers and directors — ARES does not publish them (they sit in the Justice.cz collection)",
+        "financial statements — ARES carries no financials",
+        "beneficial owners (not public)"
+      ],
+      "price": {
+        "currency_code": "CZK",
+        "check_entity_display": "2.15 CZK",
+        "check_figure_display": "0.11 CZK",
+        "usd_buys": 21.442,
+        "fx_basis": "ECB euro foreign exchange reference rates",
+        "fx_valuation_date": "2026-09-28"
+      },
+      "verified_on": "2026-10-10",
+      "status": "live"
+    },
+    {
+      "code": "IE",
+      "jurisdiction": "Ireland",
+      "currency": "EUR",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Beneficial owners are not public, and the CRO companies dataset carries no directors, officers, shareholders or owners at all. Those sit behind the CRO's own keyed CORE service, which we do not read.",
+      "registers": [
+        {
+          "name": "Companies Registration Office open data (CRO companies dataset, CKAN)",
+          "url": "https://opendata.cro.ie/",
+          "licence": "CC BY 4.0",
+          "source_name": "ie_register",
+          "code_path": "src/ireland.ts"
+        }
+      ],
+      "verifiable": [
+        "company identity: name, company number, company type",
+        "the register's own status (e.g. Normal)",
+        "registered address and Eircode",
+        "registration date, last annual-return date and the next one (NARD)",
+        "last filed-accounts date and any dissolution date",
+        "NACE v2 activity code"
+      ],
+      "not_verifiable": [
+        "directors and officers — NOT in the open dataset (they sit behind the CRO's own keyed CORE service)",
+        "shareholders and beneficial owners (not public)",
+        "the certified/paid CORE document service — we do not read it"
+      ],
+      "price": {
+        "currency_code": "EUR",
+        "check_entity_display": "0.10 EUR",
+        "check_figure_display": "0.05 EUR",
+        "usd_buys": 0.8789,
+        "fx_basis": "ECB euro foreign exchange reference rates",
+        "fx_valuation_date": "2026-09-28"
+      },
+      "verified_on": "2026-10-10",
+      "status": "live"
+    },
+    {
+      "code": "CA",
+      "jurisdiction": "Canada",
+      "currency": "CAD",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Beneficial owners are not public, and the Corporations Canada record carries only the MINIMUM and MAXIMUM NUMBER of directors, not their names. We publish the count, never the people.",
+      "registers": [
+        {
+          "name": "Corporations Canada (federal corporation register)",
+          "url": "https://ised-isde.canada.ca/cc/lgcy",
+          "licence": "Open Government Licence – Canada",
+          "source_name": "ca_register",
+          "code_path": "src/canada.ts"
+        }
+      ],
+      "verifiable": [
+        "corporation identity — BY BUSINESS NUMBER ONLY: corporation number, business number (BN), governing legislation",
+        "the corporation name(s), with type, current flag and effective date",
+        "the register's own status (e.g. Active)",
+        "registered address",
+        "the MINIMUM and MAXIMUM NUMBER of directors (a count, not their names)",
+        "annual-return history and incorporation/activity dates"
+      ],
+      "not_verifiable": [
+        "search by company NAME — the public endpoint is keyed by the nine-digit Business Number only",
+        "director and officer NAMES — only the NUMBER of directors is published, not the people",
+        "shareholders and beneficial owners (not public)",
+        "provincial and territorial corporations (this is the FEDERAL register only)"
+      ],
+      "price": {
+        "currency_code": "CAD",
+        "check_entity_display": "0.15 CAD",
+        "check_figure_display": "0.08 CAD",
+        "usd_buys": 1.4166,
+        "fx_basis": "ECB euro foreign exchange reference rates",
+        "fx_valuation_date": "2026-09-28"
+      },
+      "verified_on": "2026-10-10",
+      "status": "live"
+    },
+    {
+      "code": "LV",
+      "jurisdiction": "Latvia",
+      "currency": "EUR",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Beneficial owners are not public, and the register's open file carries no board members, officers or shareholders at all — register basics only. We read no owner register.",
+      "registers": [
+        {
+          "name": "Latvian Business Register open data (Uzņēmumu reģistrs, CKAN datastore)",
+          "url": "https://data.gov.lv/dati/lv/dataset/4de9697f-850b-45ec-8bba-61fa09ce932f",
+          "licence": "CC0-1.0",
+          "source_name": "lv_register",
+          "code_path": "src/latvia.ts"
+        }
+      ],
+      "verifiable": [
+        "entity identity: the registration number (eleven digits), the registered name, the register and entity type",
+        "the register's own name decomposition (the text before/in/after quotes)",
+        "registered address",
+        "registration date and any termination date, with the register's own closed code",
+        "the SEPA creditor identifier, when the entity has one"
+      ],
+      "not_verifiable": [
+        "board members, officers and shareholders — NOT in the open file",
+        "beneficial owners (not public)",
+        "annual accounts and financial statements — not in this file",
+        "the bulk CSV download (this slice reads the live datastore, not the dump)"
+      ],
+      "price": {
+        "currency_code": "EUR",
+        "check_entity_display": "0.10 EUR",
+        "check_figure_display": "0.05 EUR",
+        "usd_buys": 0.8789,
+        "fx_basis": "ECB euro foreign exchange reference rates",
+        "fx_valuation_date": "2026-09-28"
+      },
+      "verified_on": "2026-10-10",
+      "status": "live"
+    },
+    {
+      "code": "SG",
+      "jurisdiction": "Singapore",
+      "currency": "SGD",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Beneficial owners are not public, and the ACRA open dataset carries no officers, directors, shareholders or owners at all. Those sit behind ACRA's paid data marketplace, which we do not read.",
+      "registers": [
+        {
+          "name": "Entities Registered with ACRA (Accounting and Corporate Regulatory Authority), via data.gov.sg",
+          "url": "https://data.gov.sg/datasets/d_3f960c10fed6145404ca7b821f263b87/view",
+          "licence": "open data (licence name unconfirmed)",
+          "source_name": "sg_register",
+          "code_path": "src/singapore.ts"
+        }
+      ],
+      "verifiable": [
+        "entity identity: the UEN, the entity name and the entity type",
+        "the register's own UEN status (e.g. Registered / Deregistered) and the issuing agency",
+        "the UEN issue date",
+        "the registered street name and postal code"
+      ],
+      "not_verifiable": [
+        "officers, directors, shareholders and beneficial owners — NOT in the open dataset (they sit behind ACRA's paid data marketplace)",
+        "financial statements — not published in this dataset",
+        "real-time freshness — the dataset is a MONTHLY extract (its own metadata records coverage to 2026-09-11), so a change registered after that date may not yet appear"
+      ],
+      "price": {
+        "currency_code": "SGD",
+        "check_entity_display": "0.13 SGD",
+        "check_figure_display": "0.06 SGD",
+        "usd_buys": 1.2777,
+        "fx_basis": "ECB euro foreign exchange reference rates",
+        "fx_valuation_date": "2026-09-28"
+      },
+      "verified_on": "2026-10-10",
+      "status": "live"
+    },
+    {
+      "code": "EE",
+      "jurisdiction": "Estonia",
+      "currency": "EUR",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Beneficial-owner data is no longer published as open data at all — the e-Business Register stopped it on 10 July 2026. The officer, board and shareholder files carry natural persons' names (personal data under the GDPR) and are NOT read. The basic-details file we DO read carries no officers or owners; it does include sole traders (FIE), whose registered name is the person's own name.",
+      "registers": [
+        {
+          "name": "e-Business Register open data — basic details (ettevotja_rekvisiidid__lihtandmed)",
+          "url": "https://avaandmed.ariregister.rik.ee/et/avaandmete-allalaadimine",
+          "licence": "CC BY 4.0",
+          "source_name": "ee_register",
+          "code_path": "src/estonia.ts"
+        }
+      ],
+      "verifiable": [
+        "company identity: the registry code (eight digits, with the register's own check digit), the name and the legal form and subtype",
+        "the VAT (KMKR) number, when the company is registered for VAT",
+        "registry status straight from the file (registered / in liquidation / bankrupt), as the register publishes it",
+        "first-entry date",
+        "the registered address (street, settlement unit, postcode, and the address system's normalised full address)",
+        "sole traders (FIE) too, as the register publishes them — held exactly as published"
+      ],
+      "not_verifiable": [
+        "officers, board members and shareholders — the register's officer and shareholder files carry natural persons' names (personal data) and are NOT read",
+        "beneficial owners — no longer published as open data (since 10 July 2026)",
+        "personal identity numbers (isikukood) — absent from the open data since 1 November 2024, and never requested or stored",
+        "annual-report figures and the commercial-pledge / order files — separate datasets this slice does not read",
+        "live freshness — the file is a DAILY bulk snapshot compiled by the register, so an answer states the file's own date, not a live read"
+      ],
+      "price": {
+        "currency_code": "EUR",
+        "check_entity_display": "0.10 EUR",
+        "check_figure_display": "0.05 EUR",
+        "usd_buys": 0.8789,
+        "fx_basis": "ECB euro foreign exchange reference rates",
+        "fx_valuation_date": "2026-09-28"
+      },
+      "verified_on": "2026-10-10",
+      "status": "live"
+    },
+    {
+      "code": "CO",
+      "jurisdiction": "Colombia",
+      "currency": "COP",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Beneficial owners are not public. The register publishes the legal representative (whose NAME we read) and that person's identity document type and number (which we do NOT read or carry). Directors beyond the representative, shareholders and owners are not published.",
+      "registers": [
+        {
+          "name": "RUES / Registro Mercantil (Confecámaras), via datos.gov.co",
+          "url": "https://www.datos.gov.co/Comercio-Industria-y-Turismo/Personas-Naturales-Personas-Juridicas-y-Entidades/c82u-588k",
+          "licence": "CC BY-SA 4.0 (attribution: Confecámaras, Bogotá D.C.)",
+          "source_name": "co_register",
+          "code_path": "src/colombia.ts"
+        }
+      ],
+      "verifiable": [
+        "company identity: the NIT (with its check digit), the registered name and the matrícula (registration number)",
+        "the chamber of commerce that administers the registration",
+        "the register's own registration status (e.g. ACTIVA / CANCELADA)",
+        "the society type and the legal-organisation form",
+        "the primary and secondary CIIU economic-activity codes",
+        "the registration and last-renewal dates",
+        "the legal representative's NAME (the person who legally represents the entity)"
+      ],
+      "not_verifiable": [
+        "the legal representative's identity document type and number — present in the source; deliberately NOT read or carried",
+        "any personal identity number (a natural-person merchant's cédula is NOT carried; a NIT is carried only when the register's identifier is a valid company NIT)",
+        "directors beyond the legal representative, shareholders and beneficial owners — not published in this dataset",
+        "financial statements — not published in this dataset",
+        "a bare 9-10 digit string as a NIT — a NIT is read only with its check digit (e.g. 900925798-3)"
+      ],
+      "price": {
+        "currency_code": "COP",
+        "check_entity_display": "324 COP",
+        "check_figure_display": "162 COP",
+        "usd_buys": 3236.4177,
+        "fx_basis": "open.er-api.com (ExchangeRate-API) daily rates",
+        "fx_valuation_date": "2026-10-09"
+      },
+      "verified_on": "2026-10-10",
+      "status": "live"
+    },
+    {
+      "code": "IL",
+      "jurisdiction": "Israel",
+      "currency": "ILS",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Ownership is not public: the register carries no officers, directors, shareholders or beneficial owners as people — those sit behind the Registrar's paid company extract (נסח חברה), which we do not read.",
+      "registers": [
+        {
+          "name": "Registrar of Companies (Israeli Corporations Authority), via data.gov.il",
+          "url": "https://data.gov.il/api/3/action/datastore_search?resource_id=f004176c-b85f-4542-8901-7b3176f9a054",
+          "licence": "Other (Open) — the publisher's own licence tag (CKAN license_id other-open); no named licence is declared",
+          "source_name": "il_register",
+          "code_path": "src/israel.ts"
+        }
+      ],
+      "verifiable": [
+        "company identity: the company number (nine digits, with its own check digit), the Hebrew name and the English name (both, where the source has them)",
+        "the corporation type",
+        "the register's own company status and sub-status",
+        "the company description and its stated purpose",
+        "the incorporation date",
+        "the government-company flag and restrictions",
+        "the last annual-report year, and a structured registered address (city, street, house number, postcode, country)"
+      ],
+      "not_verifiable": [
+        "officers, directors and shareholders as people — NOT in this dataset (they sit behind the Registrar's paid company extract, נסח חברה)",
+        "financial statements — not published in this dataset",
+        "the licence terms beyond the publisher's own Other (Open) tag — UNCONFIRMED",
+        "the daily whole-register CSV export (731,925 rows) — measured, not taken on this live path"
+      ],
+      "price": {
+        "currency_code": "ILS",
+        "check_entity_display": "0.31 ILS",
+        "check_figure_display": "0.15 ILS",
+        "usd_buys": 3.068082,
+        "fx_basis": "open.er-api.com (ExchangeRate-API) daily rates",
+        "fx_valuation_date": "2026-10-09"
+      },
+      "verified_on": "2026-10-10",
+      "status": "live"
+    },
+    {
+      "code": "GB",
+      "jurisdiction": "United Kingdom",
+      "currency": "GBP",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Ownership stops at persons with significant control (PSC), not true beneficial ownership; and the register covers Great Britain only.",
+      "registers": [
+        {
+          "name": "Companies House (UK public register, daily snapshot)",
+          "url": "https://www.gov.uk/government/organisations/companies-house",
+          "licence": "OGL (public-register data)",
+          "source_name": "uk_snapshot",
+          "code_path": "src/companies-house.ts"
+        }
+      ],
+      "verifiable": [
+        "company identity: number, name, status, category, incorporation/dissolution dates",
+        "registered address and SIC codes",
+        "previous names",
+        "accounts and confirmation-statement due dates",
+        "mortgage charge counts"
+      ],
+      "not_verifiable": [
+        "Northern Ireland companies (a separate register we do not touch)",
+        "true beneficial ownership beyond PSC",
+        "parsed accounts figures (we hold the filing index, not the figures)"
+      ],
+      "price": {
+        "currency_code": "GBP",
+        "check_entity_display": "0.08 GBP",
+        "check_figure_display": "0.04 GBP",
+        "usd_buys": 0.754,
+        "fx_basis": "ECB euro foreign exchange reference rates",
+        "fx_valuation_date": "2026-09-28"
+      },
+      "verified_on": "2026-10-10",
+      "status": "live"
+    },
+    {
+      "code": "AU",
+      "jurisdiction": "Australia",
+      "currency": "AUD",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Directors and shareholding sit with ASIC, which has no open API; ownership is not verifiable from open data.",
+      "registers": [
+        {
+          "name": "Australian Business Register (ABN Lookup)",
+          "url": "https://abr.business.gov.au",
+          "licence": "ABR terms (public data)",
+          "source_name": "abr",
+          "code_path": "src/abr.ts"
+        }
+      ],
+      "verifiable": [
+        "ABN status",
+        "entity name and business names",
+        "GST registration"
+      ],
+      "not_verifiable": [
+        "directors (ASIC, no open API)",
+        "shareholding (ASIC, no open API)"
+      ],
+      "price": {
+        "currency_code": "AUD",
+        "check_entity_display": "0.15 AUD",
+        "check_figure_display": "0.08 AUD",
+        "usd_buys": 1.4237,
+        "fx_basis": "ECB euro foreign exchange reference rates",
+        "fx_valuation_date": "2026-09-28"
+      },
+      "verified_on": "2026-10-10",
+      "status": "live"
+    },
+    {
+      "code": "US",
+      "jurisdiction": "United States",
+      "currency": "USD",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "There is no open registry for US private companies and no state-level open register, so directors and owners of a private entity are not obtainable.",
+      "registers": [
+        {
+          "name": "SEC EDGAR",
+          "url": "https://www.sec.gov/edgar",
+          "licence": "US public domain",
+          "source_name": "sec",
+          "code_path": "src/entity.ts"
+        }
+      ],
+      "verifiable": [
+        "SEC registrants (public companies and funds): identity and filings"
+      ],
+      "not_verifiable": [
+        "US private companies / LLCs — no open register exists",
+        "directors of private companies (not obtainable)"
+      ],
+      "price": {
+        "currency_code": "USD",
+        "check_entity_display": "0.10 USD",
+        "check_figure_display": "0.05 USD",
+        "usd_buys": 1,
+        "fx_basis": "the charging currency itself",
+        "fx_valuation_date": "2026-09-28"
+      },
+      "verified_on": "2026-10-10",
+      "status": "live"
+    }
+  ],
+  "global_registers": [
+    {
+      "name": "GLEIF LEI index",
+      "url": "https://www.gleif.org/en/lei-data/gleif-api",
+      "licence": "CC0 (LEI data)",
+      "source_name": "gleif",
+      "code_path": "src/gleif-ownership.ts",
+      "note": "Global legal-entity identifiers and Level 2 relationships. Consulted for identity and ownership edges wherever an entity has an LEI."
+    }
+  ],
+  "ownership_summary": "Ownership data — who ultimately owns or controls a company — is CLOSED in nearly every country we cover. We can honestly verify that a company exists, who runs it (where the register publishes it), and its status; in most of Europe we cannot yet verify who ultimately owns it. Each jurisdiction below says which side of that line it is on.",
+  "charging": {
+    "live_rail_unchanged": true,
+    "live_amounts": {
+      "check_entity": "US$0.10",
+      "check_figure": "US$0.05"
+    },
+    "note": "The live charging rail is UNCHANGED: the widened entity door settles at US$0.10 and the figure door at US$0.05, on the x402 and prepaid-pack rails. The local-currency figures on this surface are DISPLAYED pricing only.",
+    "how_local_charging_would_slot_in": "Per-jurisdiction pricing would slot in WITHOUT touching the live amount by adding a local-price entry keyed by the query's jurisdiction alongside the existing US dollar amount: the door would look up a dated local price (the same value shown here), quote it, and derive the USDC amount the rail settles from the dated FX rate, exactly as the entity FILE door already derives its amount from a pence rung. The US$0.10 amount stays the source of truth until Dan decides otherwise; nothing here changes what settles today."
+  },
+  "register_sources": [
+    "gleif",
+    "sec",
+    "abr",
+    "uk_snapshot",
+    "no_register",
+    "fi_register",
+    "pl_register",
+    "fr_register",
+    "cz_register",
+    "ie_register",
+    "ca_register",
+    "lv_register",
+    "sg_register",
+    "ee_register",
+    "co_register",
+    "il_register"
+  ]
+}
