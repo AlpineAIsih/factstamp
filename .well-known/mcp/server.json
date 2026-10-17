@@ -1,0 +1,17 @@
+{
+  "name": "FactStamp",
+  "version": "0.1.3",
+  "description": "Paid company verification for AI agents: cited, dated answers about companies and about numbers the caller did not compute, each with a signed receipt that verifies offline.",
+  "homepage": "https://agents.factstamp.dev",
+  "documentation": "https://agents.factstamp.dev/docs",
+  "transport": {
+    "type": "http",
+    "url": "https://agents.factstamp.dev/mcp"
+  },
+  "tools": 15,
+  "pricing": {
+    "rail": "x402",
+    "currency": "USDC",
+    "note": "per call; free tools sit beside the paid doors"
+  }
+}
