@@ -1,0 +1,25 @@
+{
+  "name": "factstamp-mcp",
+  "version": "0.1.3",
+  "description": "FactStamp: paid company verification for AI agents. Cited, dated answers about companies and about numbers the caller did not compute, each with a signed receipt that verifies offline. Remote MCP server, no account and no API key, paid per call in USDC over x402.",
+  "homepage": "https://agents.factstamp.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlpineAIsih/factstamp.git"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "modelcontextprotocol",
+    "company-verification",
+    "company-registry",
+    "company-lookup",
+    "kyb",
+    "x402",
+    "agents",
+    "sanctions",
+    "lei"
+  ],
+  "license": "UNLICENSED",
+  "type": "module"
+}
