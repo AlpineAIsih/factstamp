@@ -27,16 +27,16 @@ the public, and they are the source of truth if anything in this README disagree
 
 ## Routes
 
-| Route | Purpose | Free |
+| Route | Purpose | Access |
 |---|---|---|
 | `/mcp` | MCP endpoint — the tool surface agents call. | — |
-| `/health` | Service status: name, network, judge and registry versions. | yes |
-| `/openapi.json` | Machine description of every route. | yes |
-| `/llms.txt` | The service explained for readers. | yes |
-| `/coverage.json` | Per-jurisdiction coverage and prices. | yes |
-| `/samples` | Example answers, so you can see the shape before paying. | yes |
-| `/ledger/root` | The public record: today's root, the last 30 daily roots, and each day's verdict. | yes |
-| `/ledger/zero-knowledge` | The private-request option: what it is, what it publishes, what it costs. | yes |
+| `/health` | Service status: name, network, judge and registry versions. | open |
+| `/openapi.json` | Machine description of every route. | open |
+| `/llms.txt` | The service explained for readers. | open |
+| `/coverage.json` | Per-jurisdiction coverage and prices. | open |
+| `/samples` | Example answers, so you can see the shape before paying. | open |
+| `/ledger/root` | The public record: today's root, the last 30 daily roots, and each day's verdict. | open |
+| `/ledger/zero-knowledge` | The private-request option: what it is, what it publishes, what it costs. | open |
 
 Paid routes include `/citation`, `/package`, `/check`, `/entity`, `/entity-file`, `/bulk`,
 `/document`, `/watch`, `/watch/portfolio`, and `/verify` for receipt checking. Prices are published,
@@ -118,7 +118,7 @@ option on the paid doors, not a separate service.
   on anyone's behalf.
 - **Not complete by assertion.** Any register we did not consult is named on the answer as not
   consulted. A register we could not read returns `unknown`, never `not found`.
-- **Not a fetcher of records you can get free.** You are paying for the citation, the check and the
+- **Not a fetcher of records you can already get at no cost.** You are paying for the citation, the check and the
   receipt, not for the register's own data.
 
 ## Issues
