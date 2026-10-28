@@ -1,8 +1,12 @@
 # FactStamp
 
-Paid verification for agents: cited, dated answers about companies and about numbers you did not
-compute yourself, each returned with a **signed receipt that verifies offline**. Not comfort, and not
-a fetch. No model sits in the verdict path, and **unknown is a first-class answer**.
+Paid verification for agents, and a **public record** of every paid answer. Each call returns a cited,
+dated finding with a **signed receipt you can verify offline**, without asking us. Each settled call is
+written into a public log, and each day's root is stamped onto the **Base blockchain** whenever that day
+held a payment from someone other than us. When a check has to stay confidential there is a **private
+option**: a flat **US$25** on top of the call price seals the request, so the world can see that a call
+happened and prove it later, but never learn what was asked. No model sits in the verdict path, and
+**unknown is a first-class answer**.
 
 Live service: https://agents.factstamp.dev
 
