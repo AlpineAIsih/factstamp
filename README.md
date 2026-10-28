@@ -13,17 +13,22 @@ Live service: https://agents.factstamp.dev
 ## What this repository is
 
 The published **machine interface** of the FactStamp service, mirrored here so it can be read,
-diffed and cited without a wallet:
+diffed and cited without a wallet. Each row names the live route the copy came from, so any file here
+can be checked against the service in one request:
 
-| File | What it is |
-|---|---|
-| [`openapi.json`](openapi.json) | The full OpenAPI 3.1 description of every route, fetched from the live service. |
-| [`llms.txt`](llms.txt) | The plain-language map of the service: what each tool costs, what it returns, what it refuses to claim. |
-| [`coverage.json`](coverage.json) | Which registers are read, per jurisdiction, section by section, with the price of each door. |
-| [`server.json`](server.json) | The MCP server manifest: name, version, and the remote endpoint agents connect to. |
+| File | What it is | Live source |
+|---|---|---|
+| [`openapi.json`](openapi.json) | The OpenAPI 3.1 description of every route. | `https://agents.factstamp.dev/openapi.json` |
+| [`llms.txt`](llms.txt) | The plain-language map of the service: what each tool costs, what it returns, what it refuses to claim. | `https://agents.factstamp.dev/llms.txt` |
+| [`coverage.json`](coverage.json) | Which registers are read, per jurisdiction, section by section, with the price of each door. | `https://agents.factstamp.dev/coverage.json` |
+| [`server.json`](server.json) | The MCP **registry** manifest — the entry submitted to the official registry, not a route the service serves. | `https://agents.factstamp.dev/.well-known/mcp.json` (the live descriptor) |
 
-The service's private source is **not** published here. The files above are the interface we serve to
-the public, and they are the source of truth if anything in this README disagrees with them.
+**These are dated snapshots, not a live feed.** Coverage and prices move as registers change, so a copy
+here can lag the service. When the two disagree, **the live route wins** — fetch it and believe that,
+not this. The files exist so a person or an agent without a wallet can read the interface, and so a
+reader can cite exactly what was published on a given day.
+
+The service's private source is **not** published here.
 
 ## Routes
 
