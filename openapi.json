@@ -3,11 +3,15 @@
   "info": {
     "title": "FactStamp",
     "version": "0.1.3",
-    "description": "Use before you name a company in a contract, invoice, filing or supplier record, before you quote a number or date you did not compute yourself, or when you need an LEI or CIK. Paid verification for agents: cited, dated answers with a signed receipt that verifies offline. $0.02–$0.10 per call in USDC on Base over x402, packs by card or PayPal: POST /packs/paypal/checkout returns a buyer approval link and an order id, the buyer approves it, and the code is then read once at GET /packs/claim?session_id=… (poll first with &peek=1).",
+    "description": "Relevant wherever a company is being named in a contract, invoice, filing or supplier record, wherever a number or date is being quoted that the caller did not compute, and for an LEI or CIK. Paid verification for agents: cited, dated answers with a signed receipt that verifies offline. Company verification and company lookup from official registers, including Australian company checks by ACN or ABN against the Australian Business Register and ASIC (ASIC's Company Register extract by ACN, plus ASIC's open registers by the identifier you hold: business names, AFS and credit licences and their representatives, financial advisers, registered auditors, liquidators, SMSF auditors, and banned and disqualified organisations). Not a KYB provider. $0.02 to $5.00 per call in USDC on Base over x402 (most doors 2 to 50 cents), packs by card or PayPal: POST /packs/paypal/checkout returns a buyer approval link and an order id, the buyer approves it, and the code is then read once at GET /packs/claim?session_id=… (poll first with &peek=1).",
     "contact": {
       "name": "FactStamp support",
       "email": "info@alpineai.com.au",
       "url": "https://agents.factstamp.dev/privacy"
+    },
+    "externalDocs": {
+      "url": "https://github.com/AlpineAIsih/factstamp",
+      "description": "The public repository for this service: the agent skill, its README and the example verification scripts."
     }
   },
   "servers": [
@@ -20,6 +24,7 @@
     "network": "base",
     "payTo": "0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32",
     "mcp": "https://agents.factstamp.dev/mcp",
+    "repository": "https://github.com/AlpineAIsih/factstamp",
     "price_usd": 0.05,
     "amount_base_units": "50000",
     "prices_usd": {
@@ -34,6 +39,14 @@
       "check_entity_file": {
         "usd": 0.438119,
         "base_units": "438119"
+      },
+      "check_sanctions": {
+        "usd": 0.05,
+        "base_units": "50000"
+      },
+      "check_vat": {
+        "usd": 0.05,
+        "base_units": "50000"
       },
       "verify_citation": {
         "usd": 0.02,
@@ -58,7 +71,186 @@
       "check_document": {
         "usd": 0.25,
         "base_units": "250000"
+      },
+      "check_entity_file_il": {
+        "usd": 0.3,
+        "base_units": "300000"
+      },
+      "check_entity_file_ca": {
+        "usd": 0.25,
+        "base_units": "250000"
       }
+    },
+    "receipt": {
+      "alg": "Ed25519",
+      "key_set": "https://agents.factstamp.dev/.well-known/factstamp-issuer.json",
+      "locator": {
+        "key_set": "/.well-known/factstamp-issuer.json",
+        "canonicalization": "JSON with object keys sorted, no whitespace, strings written the way JSON.stringify writes them",
+        "single_answer": {
+          "doors": [
+            "/check",
+            "/entity",
+            "/citation",
+            "/package",
+            "/bulk"
+          ],
+          "receipt_member": "receipt",
+          "strip": [
+            "receipt",
+            "receipt_note",
+            "receipt_id",
+            "receipt_url",
+            "paid_with"
+          ]
+        },
+        "probe": {
+          "door": "/probe",
+          "receipt_member": "answer.receipt",
+          "strip": [
+            "answer.receipt",
+            "paid_with"
+          ]
+        },
+        "multi_answer": {
+          "doors": [
+            "/document",
+            "/watch",
+            "/watch/portfolio"
+          ],
+          "receipt_member": "per unit, named by that unit's receipt_id; the receipt itself is at /r/<receipt_id>.json"
+        }
+      }
+    },
+    "card_packages": {
+      "family": "card_package",
+      "currency": "AUD",
+      "one_time": true,
+      "catalogue": "https://agents.factstamp.dev/packs/packages.json",
+      "tools": {
+        "list": "list_card_packages",
+        "buy": "buy_card_package"
+      },
+      "human_rail_note": "On the card rail the thing that taps is a human: the agent decides and the human authorises.",
+      "skus": [
+        {
+          "sku": "document_fact_audit",
+          "name": "The Document Fact Audit",
+          "amount_aud": 99,
+          "unit": "up to 25 claims in one document",
+          "offer": "https://agents.factstamp.dev/packs/packages/document_fact_audit.json",
+          "buy": "https://agents.factstamp.dev/packs/packages/document_fact_audit/buy",
+          "redeem": "https://agents.factstamp.dev/packs/packages/document_fact_audit/redeem"
+        },
+        {
+          "sku": "book_screen_50",
+          "name": "The Book, up to 50 names",
+          "amount_aud": 99,
+          "unit": "up to 50 names screened",
+          "offer": "https://agents.factstamp.dev/packs/packages/book_screen_50.json",
+          "buy": "https://agents.factstamp.dev/packs/packages/book_screen_50/buy",
+          "redeem": "https://agents.factstamp.dev/packs/packages/book_screen_50/redeem"
+        },
+        {
+          "sku": "book_screen_150",
+          "name": "The Book, up to 150 names",
+          "amount_aud": 249,
+          "unit": "up to 150 names screened",
+          "offer": "https://agents.factstamp.dev/packs/packages/book_screen_150.json",
+          "buy": "https://agents.factstamp.dev/packs/packages/book_screen_150/buy",
+          "redeem": "https://agents.factstamp.dev/packs/packages/book_screen_150/redeem"
+        },
+        {
+          "sku": "book_screen_400",
+          "name": "The Book, up to 400 names",
+          "amount_aud": 499,
+          "unit": "up to 400 names screened",
+          "offer": "https://agents.factstamp.dev/packs/packages/book_screen_400.json",
+          "buy": "https://agents.factstamp.dev/packs/packages/book_screen_400/buy",
+          "redeem": "https://agents.factstamp.dev/packs/packages/book_screen_400/redeem"
+        },
+        {
+          "sku": "shelf_ten_files",
+          "name": "The Shelf, ten evidence files",
+          "amount_aud": 149,
+          "unit": "ten entity evidence files",
+          "offer": "https://agents.factstamp.dev/packs/packages/shelf_ten_files.json",
+          "buy": "https://agents.factstamp.dev/packs/packages/shelf_ten_files/buy",
+          "redeem": "https://agents.factstamp.dev/packs/packages/shelf_ten_files/redeem"
+        },
+        {
+          "sku": "bid_pack",
+          "name": "The Bid Pack",
+          "amount_aud": 249,
+          "unit": "one bid document plus ten counterparty files",
+          "offer": "https://agents.factstamp.dev/packs/packages/bid_pack.json",
+          "buy": "https://agents.factstamp.dev/packs/packages/bid_pack/buy",
+          "redeem": "https://agents.factstamp.dev/packs/packages/bid_pack/redeem"
+        },
+        {
+          "sku": "year_watch",
+          "name": "The Year Watch",
+          "amount_aud": 79,
+          "unit": "25 references re-checked for twelve months",
+          "offer": "https://agents.factstamp.dev/packs/packages/year_watch.json",
+          "buy": "https://agents.factstamp.dev/packs/packages/year_watch/buy",
+          "redeem": "https://agents.factstamp.dev/packs/packages/year_watch/redeem"
+        },
+        {
+          "sku": "attested_record",
+          "name": "The Attested Record",
+          "amount_aud": 49,
+          "unit": "one entity, one date, for someone else's file",
+          "offer": "https://agents.factstamp.dev/packs/packages/attested_record.json",
+          "buy": "https://agents.factstamp.dev/packs/packages/attested_record/buy",
+          "redeem": "https://agents.factstamp.dev/packs/packages/attested_record/redeem"
+        },
+        {
+          "sku": "nordic_baltic_set",
+          "name": "The Nordic and Baltic Company Set",
+          "amount_aud": 99,
+          "unit": "up to 10 register evidence files, by number or name, in Norway, Finland, Estonia or Latvia",
+          "offer": "https://agents.factstamp.dev/packs/packages/nordic_baltic_set.json",
+          "buy": "https://agents.factstamp.dev/packs/packages/nordic_baltic_set/buy",
+          "redeem": "https://agents.factstamp.dev/packs/packages/nordic_baltic_set/redeem"
+        },
+        {
+          "sku": "ireland_uk_set",
+          "name": "The Irish and British Company Set",
+          "amount_aud": 149,
+          "unit": "up to 10 register evidence files, by company number or name, in Ireland or the United Kingdom",
+          "offer": "https://agents.factstamp.dev/packs/packages/ireland_uk_set.json",
+          "buy": "https://agents.factstamp.dev/packs/packages/ireland_uk_set/buy",
+          "redeem": "https://agents.factstamp.dev/packs/packages/ireland_uk_set/redeem"
+        },
+        {
+          "sku": "central_europe_set",
+          "name": "The Central Europe Company Set, by number",
+          "amount_aud": 79,
+          "unit": "up to 10 register evidence files, by KRS number or IČO, number only",
+          "offer": "https://agents.factstamp.dev/packs/packages/central_europe_set.json",
+          "buy": "https://agents.factstamp.dev/packs/packages/central_europe_set/buy",
+          "redeem": "https://agents.factstamp.dev/packs/packages/central_europe_set/redeem"
+        },
+        {
+          "sku": "colombia_set",
+          "name": "The Colombian Company Set",
+          "amount_aud": 129,
+          "unit": "up to 10 register evidence files, by NIT with its check digit, or by name",
+          "offer": "https://agents.factstamp.dev/packs/packages/colombia_set.json",
+          "buy": "https://agents.factstamp.dev/packs/packages/colombia_set/buy",
+          "redeem": "https://agents.factstamp.dev/packs/packages/colombia_set/redeem"
+        },
+        {
+          "sku": "france_set",
+          "name": "The French Company and Directors File",
+          "amount_aud": 199,
+          "unit": "up to 10 register evidence files, by SIREN or SIRET, or by name",
+          "offer": "https://agents.factstamp.dev/packs/packages/france_set.json",
+          "buy": "https://agents.factstamp.dev/packs/packages/france_set/buy",
+          "redeem": "https://agents.factstamp.dev/packs/packages/france_set/redeem"
+        }
+      ]
     }
   },
   "paths": {
@@ -98,6 +290,75 @@
         }
       }
     },
+    "/probe": {
+      "get": {
+        "summary": "The probe door's own x402 quote: 402 with `accepts[]` at two cents, plus the body shape, the cap and the ceiling under `about`. A probe is answered with a price, not a refusal.",
+        "operationId": "probeQuote",
+        "responses": {
+          "402": {
+            "description": "the door's own x402 challenge, priced at US$0.02"
+          }
+        }
+      },
+      "post": {
+        "summary": "PAID PROBE, US$0.02 a call: one small claim, verified against the same primary sources the paid doors read, answered with the same verdict, value and source, and receipted. Paid per call over x402 — there is no unpaid tier and no pack code is accepted. Unknown is a valid answer and nothing is invented. Abuse ceiling of 1,000 calls a day and 30 a minute per IP; every call inside it is charged.",
+        "operationId": "probe_claim",
+        "description": "Two cents, always. One claim per call, body capped at 2 KB. The answer carries `probe: true`, `tier: \"probe\"`, `list_price_usd: 0.02`, the same `answer` object a paid door returns, and an Ed25519 receipt at `answer.receipt` that verifies offline against the key set at /.well-known/factstamp-issuer.json: the whole answer, with `paid_with` and `answer.receipt` removed. An unsettled payment releases nothing; an `unknown` is not charged for. Exceeding the abuse ceiling returns 429 with `retry_after`; exceeding the cap returns 413. Full-price doors for anything bigger: POST /check, /entity, /entity-file, /citation, /package, /bulk and /document, and the MCP door at /mcp.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "claim"
+                ],
+                "properties": {
+                  "claim": {
+                    "type": "string",
+                    "minLength": 8,
+                    "maxLength": 500,
+                    "description": "One claim: a figure, a company, a citation or a package version."
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "figure",
+                      "entity",
+                      "citation",
+                      "package"
+                    ],
+                    "default": "figure",
+                    "description": "Which door answers it. Omitted means figure."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The settled answer in the paid door's shape, plus `probe`, `tier`, `list_price_usd`, `rate_limit` and an Ed25519 receipt at `answer.receipt`."
+          },
+          "400": {
+            "description": "not one small claim, or a bad kind"
+          },
+          "402": {
+            "description": "no payment, or a payment that will not verify: the x402 challenge, priced at two cents"
+          },
+          "413": {
+            "description": "body over the 2 KB cap; points at the full-price doors"
+          },
+          "429": {
+            "description": "abuse ceiling exceeded; carries `retry_after`"
+          },
+          "503": {
+            "description": "the deployment cannot sign a receipt, so it refuses before the till"
+          }
+        }
+      }
+    },
     "/entity": {
       "post": {
         "summary": "Entity verification, funded by a prepaid pack code sent as a bearer token. No code, or an unusable one, returns the x402 challenge so a client can pay per call instead.",
@@ -114,7 +375,7 @@
     },
     "/entity-file": {
       "post": {
-        "summary": "The entity file: one paid answer holding everything we hold about one company — identity and standing, registered office, SIC activity and previous names, filing position, a sanctions screen across five lists, and the ownership the registers publish (the persons with significant control where a register publishes them, and the declared parent relationships where a company has an LEI, with beneficial ownership stated as not public in nearly every country we cover) — with ONE coverage block naming every register consulted and every one not consulted. Priced in pence (33p) and settled in USDC at the dated rate. Same pack-code funding as /entity; without a usable code it returns the x402 challenge.",
+        "summary": "The entity file: company verification and company lookup of one company in full — a company register check by company number or name across the company registers (ACN, ABN, LEI or CIK), an Australian company check and ABN lookup — holding identity and standing, registered office, SIC activity and previous names, filing position, a sanctions screen across six lists, and the ownership the registers publish (the persons with significant control where a register publishes them, and the declared parent relationships where a company has an LEI, with beneficial ownership stated as not public in nearly every country we cover) — with ONE coverage block naming every register consulted and every one not consulted. Priced in pence (33p) and settled in USDC at the dated rate. Same pack-code funding as /entity; without a usable code it returns the x402 challenge.",
         "operationId": "entity_file",
         "responses": {
           "200": {
@@ -122,6 +383,34 @@
           },
           "402": {
             "description": "no usable pack code; x402 accepts[] returned"
+          }
+        }
+      }
+    },
+    "/il/entity-file": {
+      "post": {
+        "summary": "Israel company file: one company's own register evidence in 7 sections, read live, with one signed receipt and one coverage block. The sections promised are the ones this country's coverage block confirms, and its limits are published on the unpaid 402. US$0.30 on the per-call rail; without a usable pack code it returns the x402 challenge.",
+        "operationId": "check_entity_file_il",
+        "responses": {
+          "200": {
+            "description": "the Israel company file, with one signed receipt"
+          },
+          "402": {
+            "description": "no usable pack code; x402 accepts[] returned, with the door's limits"
+          }
+        }
+      }
+    },
+    "/ca/entity-file": {
+      "post": {
+        "summary": "Canada company file: one company's own register evidence in 6 sections, read live, with one signed receipt and one coverage block. The sections promised are the ones this country's coverage block confirms, and its limits are published on the unpaid 402. US$0.25 on the per-call rail; without a usable pack code it returns the x402 challenge.",
+        "operationId": "check_entity_file_ca",
+        "responses": {
+          "200": {
+            "description": "the Canada company file, with one signed receipt"
+          },
+          "402": {
+            "description": "no usable pack code; x402 accepts[] returned, with the door's limits"
           }
         }
       }
@@ -161,6 +450,34 @@
         "responses": {
           "200": {
             "description": "cited figure verification"
+          },
+          "402": {
+            "description": "no usable pack code; x402 accepts[] returned"
+          }
+        }
+      }
+    },
+    "/sanctions": {
+      "post": {
+        "summary": "Sanctions screening of a person or company name against OFAC SDN and Non-SDN, the UN consolidated list, the EU Financial Sanctions File, the UK Sanctions List and Australia's DFAT list: listed, mismatch, not_found or unknown, with every list consulted named and every list not consulted named as not consulted. US$0.05 on the per-call rail; without a usable pack code it returns the x402 challenge.",
+        "operationId": "sanctions",
+        "responses": {
+          "200": {
+            "description": "cited sanctions screening, with one signed receipt"
+          },
+          "402": {
+            "description": "no usable pack code; x402 accepts[] returned"
+          }
+        }
+      }
+    },
+    "/vat": {
+      "post": {
+        "summary": "An EU VAT number checked against the official VIES service (European Commission), keyless: valid, invalid or unknown — an outage is never reported as invalid — with the member state and the register's own request date. US$0.05 on the per-call rail; without a usable pack code it returns the x402 challenge.",
+        "operationId": "vat",
+        "responses": {
+          "200": {
+            "description": "VAT validity and the registration behind it, with one signed receipt"
           },
           "402": {
             "description": "no usable pack code; x402 accepts[] returned"
@@ -212,7 +529,7 @@
     },
     "/document": {
       "post": {
-        "summary": "Check a whole document: the claims that can be verified against a primary source, each answered by the door that owns it with its own signed receipt, plus one receipt over the document. Extraction is mechanical, so the claim list and the count are reproducible from the document alone. Send {\"preview\": true} for the free preview: the claims and the exact price, with no verdict and nothing charged. US$0.25 for up to 5 claims on the per-call rail; 5 cents a claim on the pack rail with an answer pack, or 2 cents for a citation or package claim on a lookup pack, up to 25 claims. A claim that produces no answer is not charged for.",
+        "summary": "Check a whole document: the claims that can be verified against a primary source, each answered by the door that owns it with its own signed receipt, plus one receipt over the document. Extraction is mechanical, so the claim list and the count are reproducible from the document alone. Send {\"preview\": true} for the preview included with the call: the claims and the exact price, with no verdict and nothing charged. US$0.25 for up to 5 claims on the per-call rail; 5 cents a claim on the pack rail with an answer pack, or 2 cents for a citation or package claim on a lookup pack, up to 25 claims. A claim that produces no answer is not charged for.",
         "operationId": "check_document",
         "responses": {
           "200": {
@@ -226,7 +543,7 @@
     },
     "/verify": {
       "get": {
-        "summary": "What the receipt verifier expects (free; POST a receipt to check one)",
+        "summary": "What the receipt verifier expects (no account and no payment; POST a receipt to check one)",
         "operationId": "verifyHelp",
         "security": [],
         "responses": {
@@ -252,6 +569,81 @@
         }
       }
     },
+    "/packs/packages.json": {
+      "get": {
+        "summary": "One-off card packages: every SKU, its price and its input shape",
+        "operationId": "cardPackages",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "the card package catalogue"
+          }
+        }
+      }
+    },
+    "/packs/packages/{sku}.json": {
+      "get": {
+        "summary": "One card package: what one payment buys, what is inside, what it does not cover, the price, and the redeem body",
+        "operationId": "cardPackage",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "one package's offer"
+          },
+          "404": {
+            "description": "no such SKU"
+          }
+        }
+      }
+    },
+    "/packs/packages/{sku}/buy": {
+      "get": {
+        "summary": "Open a Stripe Checkout Session for one package and redirect to it. Nothing is charged here, and nothing is produced here.",
+        "operationId": "cardPackageBuy",
+        "security": [],
+        "responses": {
+          "303": {
+            "description": "redirect to Stripe's own payment page"
+          }
+        }
+      }
+    },
+    "/packs/packages/{sku}/redeem": {
+      "post": {
+        "summary": "Produce the package from the input, against the paid Stripe session id. The input is validated before any source is read, and the session is exchanged for Stripe's own record of what was paid before any work runs. One payment produces one artefact.",
+        "operationId": "cardPackageRedeem",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "the artefact, with its receipt ids"
+          },
+          "400": {
+            "description": "the body is not the shape this package publishes, or the session id is malformed"
+          },
+          "402": {
+            "description": "the session is not a paid one: nothing is produced"
+          },
+          "409": {
+            "description": "this payment already produced its artefact"
+          }
+        }
+      }
+    },
+    "/packs/packages/{sku}/a/{artefact_id}": {
+      "get": {
+        "summary": "One package artefact: the printable record, with a JSON twin at the same path plus .json",
+        "operationId": "cardPackageArtefact",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "the artefact"
+          },
+          "404": {
+            "description": "no such artefact"
+          }
+        }
+      }
+    },
     "/mcp": {
       "post": {
         "summary": "MCP Streamable HTTP (x402 on paid tools)",
@@ -266,7 +658,7 @@
             "verify_package",
             "check_document"
           ],
-          "free_tools": [
+          "included_tools": [
             "list_series",
             "route_claim"
           ],
@@ -284,6 +676,14 @@
             "check_entity_file": {
               "usd": 0.438119,
               "base_units": "438119"
+            },
+            "check_sanctions": {
+              "usd": 0.05,
+              "base_units": "50000"
+            },
+            "check_vat": {
+              "usd": 0.05,
+              "base_units": "50000"
             },
             "verify_citation": {
               "usd": 0.02,
@@ -308,9 +708,234 @@
             "check_document": {
               "usd": 0.25,
               "base_units": "250000"
+            },
+            "check_entity_file_il": {
+              "usd": 0.3,
+              "base_units": "300000"
+            },
+            "check_entity_file_ca": {
+              "usd": 0.25,
+              "base_units": "250000"
             }
           },
-          "network": "base"
+          "network": "base",
+          "settlement": {
+            "required": true,
+            "scheme": "exact",
+            "network": "base",
+            "network_caip2": "eip155:8453",
+            "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+            "payTo": "0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32",
+            "currency": "USDC",
+            "decimals": 6,
+            "maxTimeoutSeconds": 300,
+            "challenge": "https://agents.factstamp.dev/mcp",
+            "header": "payment-signature (or x-payment)"
+          },
+          "payments": [
+            {
+              "tool": "check_figure",
+              "amount": "50000",
+              "amount_base_units": "50000",
+              "currency": "USDC",
+              "decimals": 6,
+              "price_usd": 0.05,
+              "scheme": "exact",
+              "network": "base",
+              "network_caip2": "eip155:8453",
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "payTo": "0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32",
+              "resource": "https://agents.factstamp.dev/mcp#check_figure"
+            },
+            {
+              "tool": "check_entity",
+              "amount": "100000",
+              "amount_base_units": "100000",
+              "currency": "USDC",
+              "decimals": 6,
+              "price_usd": 0.1,
+              "scheme": "exact",
+              "network": "base",
+              "network_caip2": "eip155:8453",
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "payTo": "0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32",
+              "resource": "https://agents.factstamp.dev/mcp#check_entity"
+            },
+            {
+              "tool": "check_entity_file",
+              "amount": "438119",
+              "amount_base_units": "438119",
+              "currency": "USDC",
+              "decimals": 6,
+              "price_usd": 0.438119,
+              "scheme": "exact",
+              "network": "base",
+              "network_caip2": "eip155:8453",
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "payTo": "0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32",
+              "resource": "https://agents.factstamp.dev/mcp#check_entity_file"
+            },
+            {
+              "tool": "check_sanctions",
+              "amount": "50000",
+              "amount_base_units": "50000",
+              "currency": "USDC",
+              "decimals": 6,
+              "price_usd": 0.05,
+              "scheme": "exact",
+              "network": "base",
+              "network_caip2": "eip155:8453",
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "payTo": "0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32",
+              "resource": "https://agents.factstamp.dev/mcp#check_sanctions"
+            },
+            {
+              "tool": "check_vat",
+              "amount": "50000",
+              "amount_base_units": "50000",
+              "currency": "USDC",
+              "decimals": 6,
+              "price_usd": 0.05,
+              "scheme": "exact",
+              "network": "base",
+              "network_caip2": "eip155:8453",
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "payTo": "0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32",
+              "resource": "https://agents.factstamp.dev/mcp#check_vat"
+            },
+            {
+              "tool": "verify_citation",
+              "amount": "20000",
+              "amount_base_units": "20000",
+              "currency": "USDC",
+              "decimals": 6,
+              "price_usd": 0.02,
+              "scheme": "exact",
+              "network": "base",
+              "network_caip2": "eip155:8453",
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "payTo": "0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32",
+              "resource": "https://agents.factstamp.dev/mcp#verify_citation"
+            },
+            {
+              "tool": "verify_package",
+              "amount": "20000",
+              "amount_base_units": "20000",
+              "currency": "USDC",
+              "decimals": 6,
+              "price_usd": 0.02,
+              "scheme": "exact",
+              "network": "base",
+              "network_caip2": "eip155:8453",
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "payTo": "0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32",
+              "resource": "https://agents.factstamp.dev/mcp#verify_package"
+            },
+            {
+              "tool": "watch_add",
+              "amount": "500000",
+              "amount_base_units": "500000",
+              "currency": "USDC",
+              "decimals": 6,
+              "price_usd": 0.5,
+              "scheme": "exact",
+              "network": "base",
+              "network_caip2": "eip155:8453",
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "payTo": "0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32",
+              "resource": "https://agents.factstamp.dev/mcp#watch_add"
+            },
+            {
+              "tool": "watch_portfolio",
+              "amount": "5000000",
+              "amount_base_units": "5000000",
+              "currency": "USDC",
+              "decimals": 6,
+              "price_usd": 5,
+              "scheme": "exact",
+              "network": "base",
+              "network_caip2": "eip155:8453",
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "payTo": "0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32",
+              "resource": "https://agents.factstamp.dev/mcp#watch_portfolio"
+            },
+            {
+              "tool": "verify_bulk",
+              "amount": "120000",
+              "amount_base_units": "120000",
+              "currency": "USDC",
+              "decimals": 6,
+              "price_usd": 0.12,
+              "scheme": "exact",
+              "network": "base",
+              "network_caip2": "eip155:8453",
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "payTo": "0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32",
+              "resource": "https://agents.factstamp.dev/mcp#verify_bulk"
+            },
+            {
+              "tool": "check_document",
+              "amount": "250000",
+              "amount_base_units": "250000",
+              "currency": "USDC",
+              "decimals": 6,
+              "price_usd": 0.25,
+              "scheme": "exact",
+              "network": "base",
+              "network_caip2": "eip155:8453",
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "payTo": "0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32",
+              "resource": "https://agents.factstamp.dev/mcp#check_document"
+            },
+            {
+              "tool": "check_entity_file_il",
+              "amount": "300000",
+              "amount_base_units": "300000",
+              "currency": "USDC",
+              "decimals": 6,
+              "price_usd": 0.3,
+              "scheme": "exact",
+              "network": "base",
+              "network_caip2": "eip155:8453",
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "payTo": "0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32",
+              "resource": "https://agents.factstamp.dev/mcp#check_entity_file_il"
+            },
+            {
+              "tool": "check_entity_file_ca",
+              "amount": "250000",
+              "amount_base_units": "250000",
+              "currency": "USDC",
+              "decimals": 6,
+              "price_usd": 0.25,
+              "scheme": "exact",
+              "network": "base",
+              "network_caip2": "eip155:8453",
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "payTo": "0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32",
+              "resource": "https://agents.factstamp.dev/mcp#check_entity_file_ca"
+            }
+          ],
+          "zero_knowledge": {
+            "option": "zero_knowledge",
+            "price_usd": 25,
+            "amount_base_units": "25000000",
+            "sold_at": [
+              "/check",
+              "/entity-file",
+              "/il/entity-file",
+              "/ca/entity-file",
+              "/sanctions",
+              "/vat",
+              "/citation",
+              "/package",
+              "/watch",
+              "/watch/portfolio",
+              "/bulk"
+            ],
+            "page": "https://agents.factstamp.dev/ledger/zero-knowledge",
+            "note": "The public ledger entry is included in every price above; a blind entry is US$25 more, on the HTTP doors and on the MCP tools alike."
+          }
         },
         "responses": {
           "200": {

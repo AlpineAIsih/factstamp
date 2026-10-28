@@ -4,10 +4,63 @@
 > entity actually exists. Not comfort. No model in the verdict path. Unknown is a
 > valid, first-class answer.
 
+**What a buyer calls this, in their own words.** Company verification, a company lookup, a company
+register check before onboarding or signing, an Australian company check by ACN or ABN, an ASIC
+company check, an ASIC search, an ABN lookup or a business-name check, and the
+register read that a KYB or due-diligence process needs to cite. We are **not a KYB provider** and we
+do not perform customer due diligence: this is the cited, dated register read such a process can point
+at, with a signed receipt that verifies offline. Australian company lookups read the Australian
+Business Register (ABN, ACN, GST, status), **ASIC's Company Register extract** (ACN, status, type,
+registration and deregistration dates, prior names) and, by the identifier you hold, the rest of
+**ASIC's open registers**: business names on an ABN, AFS licences and their authorised
+representatives, credit licences and their representatives, financial advisers, registered auditors,
+liquidators, SMSF auditors, and ASIC's banned and disqualified **organisations**. (ASIC's banned and
+disqualified *persons* dataset is deliberately not read.) "Australian company" and "ASIC" are the
+words we answer to; a name is matched where a register supports a name search, and an identifier
+(ACN, ABN, licence number) is read by the register that is keyed by it.
+
+**A charity check, in the buyer's words.** Is this a registered charity? Charity register search, ACNC
+register check, charity verification, DGR/charity status, "does this ABN belong to a charity". Four
+charity registers are served from one shape — Australia (ACNC, read LIVE by ABN or name), Canada
+(CRA), the United Kingdom (Charity Commission) and Ireland (Charities Regulator) — and each answer
+names the register that answered and every register that did not, with the reason. Today the ACNC is
+read live; the UK extract is a 54 MiB bulk file that needs an ingest, the Irish download answers a WAF
+challenge, and the open Canadian copy is the 2011 return year — each is named, not hidden.
+
+**Canadian company lookup, by name.** "Corporations Canada", "Canadian company", "federal corporation
+search". The live Canadian register is read by nine-digit Business Number; a NAME index over
+Corporations Canada's own Federal Corporations file (645,065 active CBCA records, read 15 Oct 2026) is
+built by the ca-name-index runner and resolves a name to both identifiers, both name forms, the
+governing legislation, the status and its detail, the anniversary, the last filing year, the last
+annual meeting, the registered office and the director limits. The index is not loaded in this
+deployment yet, so no Canadian name answer is claimed until it is.
+
+**Colombian company lookup.** "Colombian company", "Colombia company registry", "RUES", "Cámara de
+Comercio", "matrícula mercantil", "empresa colombiana", "NIT". We read the RUES / Registro Mercantil
+data Confecámaras publishes on datos.gov.co (CC BY-SA 4.0) by NIT with its check digit or by name, and
+we are the only credible product on that shelf: "colombian company" returns zero rows in the CDP index
+and nobody else lists a Colombian door at all. Identity, matrícula, the chamber, the register's own
+status, the society type, CIIU activity codes and the registration dates — the legal representative's
+identity document number is present in the source and is deliberately not carried.
+
+**Argentinian company lookup.** "Argentinian company", "Argentina company", "Argentina company
+register", "Registro Nacional de Sociedades", "CUIT", "empresa argentina". We read the Registro
+Nacional de Sociedades — the national legal-persons register the Ministerio de Justicia publishes
+monthly from the AFIP/ARCA Padrón Federal de Personas Jurídicas under Law 26.047, openly published and under
+CC BY 4.0 — by an eleven-digit CUIT (with its check digit) or by registered name. Identity, the
+society type, the social-contract date, the register's own last-update date, the fiscal and legal
+addresses with the register's own address status, and the activity code where the register carries
+one. It carries no directors, officers, shareholders or owners in any column, and no natural persons.
+THE HONEST STATE TODAY: the register is wired but its store holds no loaded extract yet, so it
+answers "unknown" and names itself not consulted rather than serving the publisher's 1,000-row sample
+as the register. It is named here because the shelf — "argentinian company" — is one no agent-facing
+index covers at all.
+
 - MCP: https://agents.factstamp.dev/mcp
 - Health: https://agents.factstamp.dev/health
 - Discovery: https://agents.factstamp.dev/.well-known/x402
 - Docs: https://agents.factstamp.dev/docs
+- Repository: https://github.com/AlpineAIsih/factstamp (the agent skill, the README and the example verification scripts)
 - Add it to an agent (vendor by vendor): https://agents.factstamp.dev/connect
 - Price list: https://agents.factstamp.dev/pricing.md
 - About: https://agents.factstamp.dev/about
@@ -17,27 +70,45 @@
 - Coverage: https://agents.factstamp.dev/series.json
 - Version: 0.1.3
 - Network: base
-- Domain: figure and staleness verification against dated primary sources, and entity verification against open company registers (GLEIF LEI index, US SEC EDGAR, Australian Business Register via ABN Lookup)
+- Domain: company verification and company lookup against open company registers (GLEIF LEI index, US SEC EDGAR, the Australian Business Register via ABN Lookup, and ASIC's Company Register extract plus ASIC's open registers — business names, AFS and credit licences and their representatives, financial advisers, registered auditors, liquidators, SMSF auditors and banned and disqualified organisations — for Australian company checks by ACN, ABN or licence number), and figure and staleness verification against dated primary sources
 - Verdicts: verified | stale | contradicted | unknown (figures); found | ambiguous | not_found | unknown (entities)
 - payTo: 0xc3bcd24a2b350cc73b8516b2a0539a323b42cc32
 - asset: USDC 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913
 
-## Paid tools ($0.05 USDC for the figure door, $0.10 for the entity door,
+## Paid tools ($0.05 USDC for the figure door, from $0.10 for the entity door by register depth
+## ($0.10 at 1-4 verifiable items, $0.15 at 5-6, $0.20 at 7-9, $0.25 at 10+ — see /coverage.json),
 ## $0.438119 (33p UK, at the dated rate) for the entity file,
+## $0.30 for the Israeli company file and $0.25 for the Canadian one,
+## $0.05 for the sanctions screen and $0.05 for the VAT check,
 ## $0.02 for the citation and $0.02 for the package lookup)
 
 - check_figure — a dated figure claim in, a cited verdict out
 - check_entity — a company name, LEI or CIK in, a cited identity and registration status out
-- check_entity_file — the entity file: one paid answer holding everything we hold about one company.
-  Use it before you sign, onboard, pay or acquire, and whenever you want the whole picture in one call
+- check_entity_file — the entity file: company verification and company lookup for one company — a
+  company register check by company number or name across the company registers (ACN, ABN, LEI or
+  CIK), an Australian company check and ABN lookup. One paid answer holding everything we hold about
+  that company.
+  It applies at the point of signing, onboarding, paying or acquiring, and gives the whole picture in one call
   rather than four separate facts. It holds identity and standing, the registered office, SIC activity
-  and previous names, the filing position, a sanctions screen across our five lists, and the ownership
+  and previous names, the filing position, a sanctions screen across our six lists, and the ownership
   the registers publish (the persons with significant control where a register publishes them, and the
   declared parent relationships where a company has an LEI, with beneficial ownership stated as not
   public in nearly every country we cover) — each cited to the register with its retrieval time — and ONE coverage
   block naming every register consulted and every one NOT consulted. A register that was not read is
   named as not read; unknown is a first-class answer. Priced at 33p UK-facing, settled in USDC at the
   dated rate
+- check_entity_file_il — one company's own register evidence from the Israel register: 7 sections, read live from the register that country owns, with one signed receipt and one coverage block. US$0.30. What it does NOT return is published with the door, and it is repeated on every answer: Israel only: one company per call, read from Registrar of Companies (Israeli Corporations Authority), via data.gov.il. Not returned: officers, directors and shareholders as people — NOT in this dataset (they sit behind the Registrar's paid company extract, נסח חברה). Not returned: financial statements — not published in this dataset. Not returned: the licence terms beyond the publisher's own Other (Open) tag — UNCONFIRMED. And 1 further limit on the answer's own limits list. unknown is a valid answer and is not charged.
+- check_entity_file_ca — one company's own register evidence from the Canada register: 6 sections, read live from the register that country owns, with one signed receipt and one coverage block. US$0.25. What it does NOT return is published with the door, and it is repeated on every answer: Canada only: one company per call, read from Corporations Canada (federal corporation register). Not returned: search by company NAME — the public endpoint is keyed by the nine-digit Business Number only. Not returned: director and officer NAMES — only the NUMBER of directors is published, not the people. Not returned: shareholders and beneficial owners (not public). And 2 further limits on the answer's own limits list. unknown is a valid answer and is not charged.
+- check_sanctions — a person or company name in; whether it is on the OFAC SDN or Non-SDN lists, the
+  UN consolidated list, the EU Financial Sanctions File, the UK Sanctions List or Australia's DFAT
+  list, and which one. The answer names every list consulted with its own retrieval date, names a list
+  that was NOT consulted as not consulted, and returns listed, mismatch, not_found or unknown; a near
+  name is never reported as the same party. Not advice and not a legal determination
+- check_vat — an EU VAT number in; VAT validity and the VAT registration behind it, read from the
+  official VIES service (European Commission), keyless. Returns valid, invalid or unknown — an outage
+  is never reported as invalid — with the member state, the register's own request date, and the
+  trader identity only where that member state discloses it. GB is out of scope after Brexit; XI
+  (Northern Ireland) is covered. Not tax advice
 - verify_citation — a DOI, arXiv ID or title in; existence, details and retraction status out. Send
   the title, authors, year and journal your document claims and each one is compared, field by field:
   a disagreement is reported as mismatch, never as verified
@@ -81,8 +152,74 @@
   5 claims on the per-call rail (5 cents a claim); POST /document with a pack code takes up to 25
   claims at 5 cents a claim on an answer pack, or 2 cents for a citation or package claim on a lookup
   pack. **The preview is
-  free** — POST the same body with "preview": true and you get the claims and the exact price before
+  included with the call** — POST the same body with "preview": true and you get the claims and the exact price before
   anything is charged — and **a claim we could not answer is not charged for**
+
+## One-off packages, by card (one payment each, in Australian dollars)
+
+13 one-off packages across 11 products, one payment
+each, no subscription and nothing metered. They are bigger units of the same work the per-call doors do,
+never a discount off them: the per-call doors stay open on the crypto rail beside them. On the card rail
+the thing that taps is a human, and what comes back is a signed receipt the agent can carry to whoever
+funded it. Every country package names the countries it holds and publishes each one's own limit with its
+offer, before payment. No GST is charged and none is included: the seller is not registered for GST (Australian Business Register, read 15 Oct 2026), so the amount shown is the whole amount.
+
+- The Document Fact Audit (A$99.00, up to 25 claims in one document) — One document in, every checkable claim in it answered, each by the door that owns it with its own signed receipt, plus one receipt over the document. Extraction is mechanical and reproducible from the document alone, so the claim list and the count can be recomputed by the buyer. A claim that produced no answer is not charged and is named as unanswered. Up to 25 claims and up to 40,000 characters in one document per payment. Bought once by card in Australian dollars, delivered as one artefact at a stable URL with an included machine-readable twin.
+  Buy: https://agents.factstamp.dev/packs/packages/document_fact_audit/buy. Collect: POST https://agents.factstamp.dev/packs/packages/document_fact_audit/redeem?session_id=<the session id Stripe returned> with {"document":"Inflation was 3.4% in the year to June 2026 and the cash rate was 3.85%."}. Artefact: https://agents.factstamp.dev/packs/packages/document_fact_audit/a/<artefact_id>. Offer as JSON: https://agents.factstamp.dev/packs/packages/document_fact_audit.json
+
+- The Book, up to 50 names (A$99.00, up to 50 names screened) — One list of names in, one sanctions screen per name out, each name carrying its own signed receipt, each list named with its own retrieval date and its own publisher data date, and one coverage block naming every list consulted and every list not consulted. A near name is never reported as the same party, and a screen is not a legal determination. Up to 50 names per payment. Bought once by card in Australian dollars, delivered as one index artefact at a stable URL with an included machine-readable twin.
+  Buy: https://agents.factstamp.dev/packs/packages/book_screen_50/buy. Collect: POST https://agents.factstamp.dev/packs/packages/book_screen_50/redeem?session_id=<the session id Stripe returned> with {"names":["Banco Nacional de Cuba","TOTALLY UNLISTED WIDGETS PTY LTD"]}. Artefact: https://agents.factstamp.dev/packs/packages/book_screen_50/a/<artefact_id>. Offer as JSON: https://agents.factstamp.dev/packs/packages/book_screen_50.json
+
+- The Book, up to 150 names (A$249.00, up to 150 names screened) — One list of names in, one sanctions screen per name out, each name carrying its own signed receipt, each list named with its own retrieval date and its own publisher data date, and one coverage block naming every list consulted and every list not consulted. A near name is never reported as the same party. Up to 150 names per payment. Bought once by card in Australian dollars, delivered as one index artefact at a stable URL with an included machine-readable twin.
+  Buy: https://agents.factstamp.dev/packs/packages/book_screen_150/buy. Collect: POST https://agents.factstamp.dev/packs/packages/book_screen_150/redeem?session_id=<the session id Stripe returned> with {"names":["Banco Nacional de Cuba","TOTALLY UNLISTED WIDGETS PTY LTD"]}. Artefact: https://agents.factstamp.dev/packs/packages/book_screen_150/a/<artefact_id>. Offer as JSON: https://agents.factstamp.dev/packs/packages/book_screen_150.json
+
+- The Book, up to 400 names (A$499.00, up to 400 names screened) — One list of names in, one sanctions screen per name out, each name carrying its own signed receipt, each list named with its own retrieval date and its own publisher data date, and one coverage block naming every list consulted and every list not consulted. A near name is never reported as the same party. Up to 400 names per payment. Bought once by card in Australian dollars, delivered as one index artefact at a stable URL with an included machine-readable twin.
+  Buy: https://agents.factstamp.dev/packs/packages/book_screen_400/buy. Collect: POST https://agents.factstamp.dev/packs/packages/book_screen_400/redeem?session_id=<the session id Stripe returned> with {"names":["Banco Nacional de Cuba","TOTALLY UNLISTED WIDGETS PTY LTD"]}. Artefact: https://agents.factstamp.dev/packs/packages/book_screen_400/a/<artefact_id>. Offer as JSON: https://agents.factstamp.dev/packs/packages/book_screen_400.json
+
+- The Shelf, ten evidence files (A$149.00, ten entity evidence files) — Ten entities in, ten register evidence files out, each file holding the identity and standing the registers publish for that entity, a sanctions screen, the ownership the registers publish where they publish any, its own coverage block naming what was read and what was not, and its own signed receipt. One index page lists all ten. Up to 10 entities per payment, identified by an Australian ABN or ACN. Bought once by card in Australian dollars, delivered as one index artefact at a stable URL with an included machine-readable twin.
+  Buy: https://agents.factstamp.dev/packs/packages/shelf_ten_files/buy. Collect: POST https://agents.factstamp.dev/packs/packages/shelf_ten_files/redeem?session_id=<the session id Stripe returned> with {"entities":["89 915 082 394"]}. Artefact: https://agents.factstamp.dev/packs/packages/shelf_ten_files/a/<artefact_id>. Offer as JSON: https://agents.factstamp.dev/packs/packages/shelf_ten_files.json
+
+- The Bid Pack (A$249.00, one bid document plus ten counterparty files) — One bid or tender document in plus up to ten counterparties out: every checkable claim in the document answered by the door that owns it with its own signed receipt, and one register evidence file for each counterparty, in the shape of the single evidence file we sell alone. One consolidated index lists every claim and every file with its receipt id. Up to 25 claims and up to 10 counterparties per payment. Bought once by card in Australian dollars, delivered as one index artefact at a stable URL with an included machine-readable twin.
+  Buy: https://agents.factstamp.dev/packs/packages/bid_pack/buy. Collect: POST https://agents.factstamp.dev/packs/packages/bid_pack/redeem?session_id=<the session id Stripe returned> with {"document":"The tender states the cash rate was 3.85% at June 2026.","counterparties":["89 915 082 394"]}. Artefact: https://agents.factstamp.dev/packs/packages/bid_pack/a/<artefact_id>. Offer as JSON: https://agents.factstamp.dev/packs/packages/bid_pack.json
+
+- The Year Watch (A$79.00, 25 references re-checked for twelve months) — Up to 25 references in (citations or package versions), re-checked on a standing basis for twelve months. Every change is recorded as a signed, dated entry in a change log at a stable URL that can be read at any time, and the log carries the same coverage block as every other answer: what was read, and what was not. Nothing is reported when nothing changed. A reference whose source became unreachable is recorded as unread, never as unchanged. Bought once by card in Australian dollars.
+  Buy: https://agents.factstamp.dev/packs/packages/year_watch/buy. Collect: POST https://agents.factstamp.dev/packs/packages/year_watch/redeem?session_id=<the session id Stripe returned> with {"references":[{"kind":"citation","query":"10.1038/nature12373"},{"kind":"package","query":"express"}]}. Artefact: https://agents.factstamp.dev/packs/packages/year_watch/a/<artefact_id>. Offer as JSON: https://agents.factstamp.dev/packs/packages/year_watch.json
+
+- The Attested Record (A$49.00, one entity, one date, for someone else's file) — One dated record about one entity, made for someone else's file rather than your own. It carries an attestation frame naming who asked, what was asked and on what date; third-party verification language with the verification URL, so a stranger can check it offline without asking us; and re-issuance at the date of use, so the record is current on the day it is handed over rather than the day it was bought. One entity, identified by an Australian ABN or ACN. Bought once by card in Australian dollars, delivered as one artefact at a stable URL with an included machine-readable twin.
+  Buy: https://agents.factstamp.dev/packs/packages/attested_record/buy. Collect: POST https://agents.factstamp.dev/packs/packages/attested_record/redeem?session_id=<the session id Stripe returned> with {"entity":"89 915 082 394","asked_by":"the counterparty's onboarding team","asked":"does this entity exist and is its registration current"}. Artefact: https://agents.factstamp.dev/packs/packages/attested_record/a/<artefact_id>. Offer as JSON: https://agents.factstamp.dev/packs/packages/attested_record.json
+
+- The Nordic and Baltic Company Set (A$99.00, up to 10 register evidence files, by number or name, in Norway, Finland, Estonia or Latvia) — Up to 10 entities in, one register evidence file each out, in one dated index: the identity, the registered address, the registration date and the register's own status for a company in Norway, Finland, Estonia or Latvia, each read by that country's own register, and each file carrying its own coverage block naming what was read and what was not, its own signed receipt, and a sanctions screen against the lists we read. Estonia is answered from the register's own daily bulk file held in an out-of-band store, so its answer states the file's own date. No officers, directors, shareholders or owners in any of the four countries, and no financial figures: each country's own limit is published with this offer and on the page before payment. Bought once by card in Australian dollars, delivered as one index artefact at a stable URL with an included machine-readable twin.
+  Buy: https://agents.factstamp.dev/packs/packages/nordic_baltic_set/buy. Collect: POST https://agents.factstamp.dev/packs/packages/nordic_baltic_set/redeem?session_id=<the session id Stripe returned> with {"entities":["923609016","Nokia Oyj"]}. Artefact: https://agents.factstamp.dev/packs/packages/nordic_baltic_set/a/<artefact_id>. Offer as JSON: https://agents.factstamp.dev/packs/packages/nordic_baltic_set.json
+  Limits, per country and published before payment: Norway: answers by organisation number or by name, returning the company's identity, its registered address and registration date, the register's own status flags, its industry code and its parent chain where the company is in a registered group. Norway: No people: the roles surfaces are not read, and beneficial owners are restricted to banks, authorities and named civil-society bodies. Norway: No financial figures, and no personal identity number is ever requested or stored. Finland: answers by Business ID or by name, returning identity and status, the registered notifications since 7 November 2014, and which accounting periods have a digitally filed statement. Finland: Identity and status only: the open data carries no natural persons at all, sole traders are left out of it entirely, and financial figures are paid, via Virre, other than the small share filed digitally. Finland: No beneficial owners: the Trade Register publishes its entries except the beneficial-owner details. Estonia: is answered from the register's own daily bulk file, held in an out-of-band store, so its answer states the file's own date rather than a live read. The store's load state right now is published on /coverage.json. Estonia: Identity and status only: no officers, no board members and no shareholders, because those files carry personal names and are not read. Beneficial-owner data stopped being published there on 10 July 2026. Estonia: includes sole traders, held exactly as the register publishes them. Latvia: answers by registration number or by name, returning identity, the registered address, the registration date, any termination date and the SEPA creditor identifier where the entity has one. Latvia: Identity and status only: the open file carries no board members, officers or shareholders at all, and no annual accounts or financial statements. Latvia: No beneficial owners, and this slice reads the register's live datastore rather than its bulk dump. Every country package names the countries it holds, and every field line above is that country's own published coverage rather than a summary of it. A country outside a package's own list is not answered by that package, and only the countries named on it are promised. A register this package did not read is named as not read, never reported as a clean or clear result, and an absence is asserted only where every register that could hold the entity was read. Register coverage moves. The current state of every country above, including any register whose load is missing or stale, is published at /coverage and /coverage.json, beside the register's own date and licence. Australia is in no package here: the Australian Business Register's registered-party access needs a key this deployment does not hold, so the live ABN leg is dark until a replacement key issues. Argentina is in no package here: it is not sold on this rail at all.
+
+- The Irish and British Company Set (A$149.00, up to 10 register evidence files, by company number or name, in Ireland or the United Kingdom) — Up to 10 entities in, one register evidence file each out: identity, the register's own status, registered address, registration and dissolution dates, activity codes and filing dates for a company in Ireland, and the equivalent fields for a company in Great Britain read from Companies House. The UK answer comes from the register's keyless monthly bulk snapshot, compiled to the end of the previous month, so a UK answer is up to about a month old by design and says so, and the UK licence is the statutory approval one rather than the OGL. No officers, directors, secretaries, shareholders or owners in either country, and no charity check in either. Each file carries its own coverage block naming what was read and what was not, its own signed receipt, and a sanctions screen. Bought once by card in Australian dollars, delivered as one index artefact at a stable URL with an included machine-readable twin.
+  Buy: https://agents.factstamp.dev/packs/packages/ireland_uk_set/buy. Collect: POST https://agents.factstamp.dev/packs/packages/ireland_uk_set/redeem?session_id=<the session id Stripe returned> with {"entities":["249885","00445790"]}. Artefact: https://agents.factstamp.dev/packs/packages/ireland_uk_set/a/<artefact_id>. Offer as JSON: https://agents.factstamp.dev/packs/packages/ireland_uk_set.json
+  Limits, per country and published before payment: Ireland: answers by company number or by name, returning company type, the register's own status, the registered address and Eircode, the registration date, the annual-return dates, the last filed-accounts date, any dissolution date and the NACE v2 activity code. Ireland: Identity and status only: the open dataset carries no directors, officers, shareholders or owners, and the director data sits behind the CRO's own keyed service, which is not read. Ireland: No charity check: the Charities Regulator's CSV and XLSX both answered HTTP 403 to a plain read on 15 Oct 2026, so that register is not read and an unanswered charity field is never a clean result. United Kingdom: is read from Companies House's keyless monthly bulk snapshot, compiled to the end of the previous month and refreshed within five working days of month end, so a UK answer is up to about a month old by design. United Kingdom: The licence is the statutory approval one, not the OGL. United Kingdom: Great Britain only: Northern Ireland companies are a separate register this package does not touch. United Kingdom: No officers and no persons with significant control: this slice does not carry the register's personal data. United Kingdom: No parsed accounts figures: the answer holds the filing index, not the figures. United Kingdom: No charity check: the Charity Commission's public extract is a 54 MiB file that needs an ingest this deployment does not hold. Every country package names the countries it holds, and every field line above is that country's own published coverage rather than a summary of it. A country outside a package's own list is not answered by that package, and only the countries named on it are promised. A register this package did not read is named as not read, never reported as a clean or clear result, and an absence is asserted only where every register that could hold the entity was read. Register coverage moves. The current state of every country above, including any register whose load is missing or stale, is published at /coverage and /coverage.json, beside the register's own date and licence. Australia is in no package here: the Australian Business Register's registered-party access needs a key this deployment does not hold, so the live ABN leg is dark until a replacement key issues. Argentina is in no package here: it is not sold on this rail at all.
+
+- The Central Europe Company Set, by number (A$79.00, up to 10 register evidence files, by KRS number or IČO, number only) — Up to 10 entities in, one register evidence file each out, identified by a KRS number in Poland or an IČO in Czechia: the register's own number, the registered name and legal form, the registered address, registration dates, activity codes and the register's own status. Both registers are number only: there is no official keyless name route into either, so a company name on its own returns nothing here. Poland's open register masks the names of the representing body by law, so a file carries the count of members and never the names; ARES publishes no officers or directors at all; neither country carries financial figures. Each file carries its own coverage block naming what was read and what was not, its own signed receipt, and a sanctions screen. Both identifiers carry a check digit, and a number that fails it is named as malformed rather than read. Bought once by card in Australian dollars, delivered as one index artefact at a stable URL with an included machine-readable twin.
+  Buy: https://agents.factstamp.dev/packs/packages/central_europe_set/buy. Collect: POST https://agents.factstamp.dev/packs/packages/central_europe_set/redeem?session_id=<the session id Stripe returned> with {"entities":["0000028860","27074358"]}. Artefact: https://agents.factstamp.dev/packs/packages/central_europe_set/a/<artefact_id>. Offer as JSON: https://agents.factstamp.dev/packs/packages/central_europe_set.json
+  Limits, per country and published before payment: Poland: answers to a KRS number only: there is no official keyless route by company name, NIP or REGON, so a name on its own returns nothing here. Poland: masks the names of the representing body by law: you get the count of members and whether their names are masked, never the names. Poland: No beneficial owners, and no figures from a filed statement: the answer carries the filing dates and periods, not the contents. Czechia: answers to an IČO only: this slice reads the register's IČO endpoint, and the register's separate search endpoint is not read, so a name on its own returns nothing here. Czechia: Identity and status only: no officers and no directors, because ARES publishes none of them and they sit in a document collection this slice does not read. Czechia: No financial figures, because ARES carries none, and no beneficial owners either. Every country package names the countries it holds, and every field line above is that country's own published coverage rather than a summary of it. A country outside a package's own list is not answered by that package, and only the countries named on it are promised. A register this package did not read is named as not read, never reported as a clean or clear result, and an absence is asserted only where every register that could hold the entity was read. Register coverage moves. The current state of every country above, including any register whose load is missing or stale, is published at /coverage and /coverage.json, beside the register's own date and licence. Australia is in no package here: the Australian Business Register's registered-party access needs a key this deployment does not hold, so the live ABN leg is dark until a replacement key issues. Argentina is in no package here: it is not sold on this rail at all.
+
+- The Colombian Company Set (A$129.00, up to 10 register evidence files, by NIT with its check digit, or by name) — Up to 10 entities in, one register evidence file each out, from Colombia's RUES / Registro Mercantil data: the NIT with its check digit, the registered name, the matrícula, the chamber of commerce that administers the registration, the register's own status, the society type and legal-organisation form, the CIIU activity codes, the registration and last-renewal dates, and the legal representative's name as the register publishes it. The legal representative's identity document type and number are present in the source and are deliberately not read or carried, and no personal identity number is held. No directors beyond the legal representative, no shareholders, no owners and no financial statements: none of them is published in this dataset. A NIT must be supplied with its check digit. Each file carries its own coverage block naming what was read and what was not, its own signed receipt, and a sanctions screen. Bought once by card in Australian dollars, delivered as one index artefact at a stable URL with an included machine-readable twin.
+  Buy: https://agents.factstamp.dev/packs/packages/colombia_set/buy. Collect: POST https://agents.factstamp.dev/packs/packages/colombia_set/redeem?session_id=<the session id Stripe returned> with {"entities":["900925798-3"]}. Artefact: https://agents.factstamp.dev/packs/packages/colombia_set/a/<artefact_id>. Offer as JSON: https://agents.factstamp.dev/packs/packages/colombia_set.json
+  Limits, per country and published before payment: Colombia: answers by NIT with its check digit, or by the register's own name search. Colombia: returns the legal representative's name as the register publishes it. Their identity document type and number are present in the source and are deliberately not read or carried, and no personal identity number is held. Colombia: A NIT must be supplied with its check digit: a bare nine or ten digit number is refused, because that shape is also a Norwegian organisation number, a French SIREN, a Canadian Business Number and a Polish KRS number. Colombia: No directors beyond the legal representative, no shareholders, no owners and no financial statements: none of them is published in this dataset. Every country package names the countries it holds, and every field line above is that country's own published coverage rather than a summary of it. A country outside a package's own list is not answered by that package, and only the countries named on it are promised. A register this package did not read is named as not read, never reported as a clean or clear result, and an absence is asserted only where every register that could hold the entity was read. Register coverage moves. The current state of every country above, including any register whose load is missing or stale, is published at /coverage and /coverage.json, beside the register's own date and licence. Australia is in no package here: the Australian Business Register's registered-party access needs a key this deployment does not hold, so the live ABN leg is dark until a replacement key issues. Argentina is in no package here: it is not sold on this rail at all.
+
+- The French Company and Directors File (A$199.00, up to 10 register evidence files, by SIREN or SIRET, or by name) — Up to 10 entities in, one register evidence file each out, from France's national business register: the SIREN and SIRET, the name and any sigle, the legal-form code, the registered office address, the NAF/APE activity code, the employee band and employer flag, the creation date and administrative status, the named directors as the register publishes them, and the register's own year figures, turnover and net result. The register publishes directors only for diffusible companies and hides them where it flags a company non-diffusible, and the answer says so rather than showing an empty list. Directors' birth dates are carried by the register and are deliberately dropped, and beneficial ownership is not public. This reads the register's search API rather than the full Sirene bulk, so a company never registered with the RCS is absent. Each file carries its own coverage block naming what was read and what was not, its own signed receipt, and a sanctions screen. Bought once by card in Australian dollars, delivered as one index artefact at a stable URL with an included machine-readable twin.
+  Buy: https://agents.factstamp.dev/packs/packages/france_set/buy. Collect: POST https://agents.factstamp.dev/packs/packages/france_set/redeem?session_id=<the session id Stripe returned> with {"entities":["383474814"]}. Artefact: https://agents.factstamp.dev/packs/packages/france_set/a/<artefact_id>. Offer as JSON: https://agents.factstamp.dev/packs/packages/france_set.json
+  Limits, per country and published before payment: France: is the deepest country in this suite: named directors as the register publishes them, and the register's own year figures, turnover and net result. France: Directors are published only for diffusible companies: where the register flags a company non-diffusible it hides the people, and the answer says so rather than showing an empty list. France: No directors' birth dates: the register carries a birth month and year and this slice deliberately does not carry it. France: No beneficial owners: not public, and no owner register is read for it. France: reads the register's search API, not the full Sirene bulk, so a company never registered with the RCS is absent entirely. Every country package names the countries it holds, and every field line above is that country's own published coverage rather than a summary of it. A country outside a package's own list is not answered by that package, and only the countries named on it are promised. A register this package did not read is named as not read, never reported as a clean or clear result, and an absence is asserted only where every register that could hold the entity was read. Register coverage moves. The current state of every country above, including any register whose load is missing or stale, is published at /coverage and /coverage.json, beside the register's own date and licence. Australia is in no package here: the Australian Business Register's registered-party access needs a key this deployment does not hold, so the live ABN leg is dark until a replacement key issues. Argentina is in no package here: it is not sold on this rail at all.
+
+
+- Machine-readable catalogue for every package above, including each input shape:
+  https://agents.factstamp.dev/packs/packages.json
+- On the MCP door, the offer is two included tools an agent can discover by reading the tool list:
+  `list_card_packages` returns this catalogue with every published price, and
+  `buy_card_package` opens a Stripe Checkout Session for one SKU and returns its payment link
+  and session id. Neither charges anything and neither produces an artefact: a human taps the Stripe
+  page, and the package's work runs at that SKU's redeem path once Stripe's own record says it is paid.
+- Every unit a package produces carries its own signed receipt, and every coverage block names what was
+  read and what was NOT read. A register that was not read is never reported as clean. Unknown is a
+  first-class answer here too.
+- What no package says: FactStamp is not a reporting entity, does not perform customer due diligence and is not a KYB provider. A package is evidence of a check we ran, for your own file, and nothing more. We sell a screen, never a decision: a match, a clean-looking absence and an unanswered field all mean what the register we read means, and no more. A register we did not read is never reported as clean. It is named as not read, with the reason, on every unit the package produces. Australian coverage carries no directors, no shareholders and no owners: those are not published in the registers we read there, and we do not infer them. Ownership is closed in most of the European registers we read. Where a register publishes a parent it is named as the register's own statement, and beneficial ownership is stated as not public. Sanctions and VAT coverage is a named list, never a global promise: each list is named with its own data date, and a list that was not consulted is named as not consulted.
 
 ## What the price buys: assurance, not a fetch
 
@@ -102,16 +239,33 @@ the reader's trust in it is worth. Every answer here comes back with:
 That is the assurance: after the fact, somebody who was not in the room can check what you were told,
 when, and on whose authority. It is the difference between a lookup and a record.
 
-## Free tools
+## Included tools
 
 - list_series — coverage and the no-guess rule
 - route_claim — routing and extraction only, no verdict
 
-## Free pages (no wallet)
+## The probe door: two cents, receipted, one claim per call
+
+- POST /probe — the cheap real call. Send {"claim": "...", "kind": "figure"} (kinds: figure, entity, citation and package; omit `kind` and it answers as a figure), under 2 KB, one claim per call, and PAY FOR IT: **US$0.02 on the x402 rail, USDC on Base, settled per call**. There is no unpaid tier on this door, no pack code and no exemption — an unpaid call gets the door's own 402 with the price in `accepts[]`. The answer carries the verdict, the value and the source it rests on with our retrieval time, exactly as the door that answered it would state them, plus that door's whole answer under `answer`, wrapped in a probe envelope with `probe: true`, `tier: "probe"`, `list_price_usd: 0.02` and an Ed25519 receipt at answer.receipt, checkable offline against the published key set (see Receipts below). It is checked by the SAME engine the full-price doors call, so a two-cent answer and a five-cent answer cannot disagree about the same claim. **Unknown is a valid answer and nothing is invented**: a claim we cannot resolve, or a source that does not answer within 10 seconds, comes back `unknown`, is NOT charged for (`x-payment-charged: false`), and releases no reading. The probe door is two cents, receipted, one claim per call.
+- The ceiling is real and published: 1000 calls per UTC day and 30 per minute per IP, counted on a hash of `CF-Connecting-IP`. It is an abuse ceiling, not an allowance — every call inside it is charged at the same two cents. Over it: HTTP 429 with `retry_after`. Over the 2 KB cap: HTTP 413. If this deployment cannot sign a receipt it refuses before the till, rather than take money for an answer nobody can check.
+- For volume or a bigger question, the full-price doors are below — a document, a bulk list, a full entity file. GET /probe for the exact body, the price and the ceiling.
+
+## The FactStamp Ledger (readable by anyone: every settled call, permanently provable)
+
+- One entry per settled paid call, whether it came through an HTTP door or an MCP tool, appended in order, folded into an RFC 6962 Merkle tree with a root per UTC day. The entry is the receipt's second copy: `seq`, `ts`, `door`, `request_hash`, `answer_sha256`, `receipt_sig`, `price_usd`, `currency`, `network`, and nothing else. No payer address, no IP, no email, no pack code, never the claim or the document. An HTTP door is named by its path (for example /check); an MCP tool by the prefix mcp: and its tool name (for example mcp:check_figure). A prepaid pack bought by card or PayPal, a one-off card package, a CDD file, and a call paid for out of a pack credit, are not in the log: those are payments for credit or for a product bought on the payment provider's page rather than settlements of a call, and /ledger says so.
+- GET /ledger/root — current root, its day, the entry count, the last 30 daily roots, and `anchor.mode` (anchoring is not a claim but a record: every closed UTC day carries its own verdict, one of anchored, authorised: awaiting a write, held: no outside transaction, or held: payer undetermined). Beside the mode, `anchor.last_day_evaluated` and `anchor.verdict` report the last UTC day the anchoring gate examined and what it decided (`anchored`, `held: no outside transaction`, `held: payer undetermined`), and the day is written to Base only when it held at least one settlement paid from outside our own wallets — at most one anchor transaction per UTC day. The counts are published beside it: anchor.anchored_days is what is on a chain, anchor.pending_days is what is not, and anchor.days_evaluated is how many closed days carry a verdict at all — a gate that has evaluated nothing says so rather than reading as a gate that held everything.
+- GET /ledger/entry/{seq} — the entry, its leaf, and two inclusion proofs (to its own day's root and to today's root). GET /ledger/proof?seq={seq} — the path alone.
+- GET /ledger — the same in plain words, with the live root and count.
+- Verify offline with no call to us: `node scripts/ledger-verify.mjs --entry entry.json --answer answer.json`. Leaf = sha256(0x00 || canonical entry JSON), node = sha256(0x01 || left || right).
+- Reading the ledger needs no account and no payment. A proof that costs money to check is not a proof.
+- Not covered yet: a call made through the MCP transport. The MCP library settles it after the tool body returns, so there is no settlement record on our side to append. Those calls still carry the signed receipt, and this line exists so nobody discovers the difference afterwards.
+
+## Included pages (no wallet)
 
 - GET /series.json — the coverage table
 - GET /series — the same, human-readable
 - GET /samples — frozen sample verdicts
+- GET /probe — the paid probe door's own quote (a 402 with its price; nothing to buy by GET)
 - GET /SKILL.md — the agent skill
 - GET /.well-known/factstamp-issuer.json — the public key that receipts are signed with
 - POST /verify — courtesy receipt check (offline verification is the real mechanism)
@@ -139,7 +293,11 @@ same field
 - receipt, receipt_note, receipt_id, receipt_url, paid_with
 
 A door that answers many things at once - /document, /watch, /watch/portfolio - does not
-return the answer in that envelope. A document reply carries each claim's answer beside
+return the answer in that envelope. The probe door (/probe) is the third shape, and the only
+one whose body carries an answer member: the answering door's whole answer rides under answer, and
+this service's Ed25519 receipt rides INSIDE it, at answer.receipt. Drop
+answer.receipt and paid_with, canonicalise what is left, and you get that receipt's
+answer_hash, the same field for the same answer. A document reply carries each claim's answer beside
 the claim's own fields (its index, offset and quote), and a watch reply carries the answer
 it was seeded from under `seeded_answer`, so dropping the envelope keys there does not
 leave an answer. Read the receipt instead: a document reply names each claim's receipt_id,
@@ -156,8 +314,8 @@ hold). A receipt proves who said it, what was asked
 and when. It does not prove the underlying fact: that rests on the cited source, which is
 named in the receipt.
 
-The price buys this, not the lookup. Public registers are free to read, and anything
-that only reads them is a commodity; what is not free is a record that survives an
+The price buys this, not the lookup. Public registers cost nothing to read, and anything
+that only reads them is a commodity; what you pay for is a record that survives an
 audit, a hand-off or a dispute, and that can be checked without asking us.
 
 ## Do not

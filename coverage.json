@@ -1,7 +1,7 @@
 {
   "coverage": "FactStamp entity-door coverage — what we verify, what we do NOT, and what it costs",
   "version": "0.1.3",
-  "verified_on": "2026-10-10",
+  "verified_on": "2026-10-24",
   "jurisdictions": [
     {
       "code": "NO",
@@ -40,7 +40,16 @@
         "fx_valuation_date": "2026-09-28"
       },
       "verified_on": "2026-10-10",
-      "status": "live"
+      "status": "live",
+      "store_load": null,
+      "depth": {
+        "items": 5,
+        "rung": "mid",
+        "price_usd": 0.15,
+        "base_units": "150000",
+        "on_sale": true,
+        "note": "5 verifiable items — the mid rung, US$0.15 a check."
+      }
     },
     {
       "code": "FI",
@@ -96,7 +105,16 @@
         "fx_valuation_date": "2026-09-28"
       },
       "verified_on": "2026-10-10",
-      "status": "live"
+      "status": "live",
+      "store_load": null,
+      "depth": {
+        "items": 6,
+        "rung": "mid",
+        "price_usd": 0.15,
+        "base_units": "150000",
+        "on_sale": true,
+        "note": "6 verifiable items — the mid rung, US$0.15 a check."
+      }
     },
     {
       "code": "PL",
@@ -136,7 +154,16 @@
         "fx_valuation_date": "2026-09-28"
       },
       "verified_on": "2026-10-10",
-      "status": "live"
+      "status": "live",
+      "store_load": null,
+      "depth": {
+        "items": 6,
+        "rung": "mid",
+        "price_usd": 0.15,
+        "base_units": "150000",
+        "on_sale": true,
+        "note": "6 verifiable items — the mid rung, US$0.15 a check."
+      }
     },
     {
       "code": "FR",
@@ -181,7 +208,16 @@
         "fx_valuation_date": "2026-09-28"
       },
       "verified_on": "2026-10-10",
-      "status": "live"
+      "status": "live",
+      "store_load": null,
+      "depth": {
+        "items": 9,
+        "rung": "deep",
+        "price_usd": 0.2,
+        "base_units": "200000",
+        "on_sale": true,
+        "note": "9 verifiable items — the deep rung, US$0.20 a check."
+      }
     },
     {
       "code": "CZ",
@@ -222,7 +258,16 @@
         "fx_valuation_date": "2026-09-28"
       },
       "verified_on": "2026-10-10",
-      "status": "live"
+      "status": "live",
+      "store_load": null,
+      "depth": {
+        "items": 6,
+        "rung": "mid",
+        "price_usd": 0.15,
+        "base_units": "150000",
+        "on_sale": true,
+        "note": "6 verifiable items — the mid rung, US$0.15 a check."
+      }
     },
     {
       "code": "IE",
@@ -251,7 +296,8 @@
       "not_verifiable": [
         "directors and officers — NOT in the open dataset (they sit behind the CRO's own keyed CORE service)",
         "shareholders and beneficial owners (not public)",
-        "the certified/paid CORE document service — we do not read it"
+        "the certified/paid CORE document service — we do not read it",
+        "the Register of Charities (the Charities Regulator's register): openly published under CC BY 4.0, but read 15 Oct 2026 its CSV and XLSX both answer HTTP 403 to a plain GET (a WAF challenge, not the file) — not read, and no workaround attempted"
       ],
       "price": {
         "currency_code": "EUR",
@@ -262,7 +308,16 @@
         "fx_valuation_date": "2026-09-28"
       },
       "verified_on": "2026-10-10",
-      "status": "live"
+      "status": "live",
+      "store_load": null,
+      "depth": {
+        "items": 6,
+        "rung": "mid",
+        "price_usd": 0.15,
+        "base_units": "150000",
+        "on_sale": true,
+        "note": "6 verifiable items — the mid rung, US$0.15 a check."
+      }
     },
     {
       "code": "CA",
@@ -292,7 +347,8 @@
         "search by company NAME — the public endpoint is keyed by the nine-digit Business Number only",
         "director and officer NAMES — only the NUMBER of directors is published, not the people",
         "shareholders and beneficial owners (not public)",
-        "provincial and territorial corporations (this is the FEDERAL register only)"
+        "provincial and territorial corporations (this is the FEDERAL register only)",
+        "the CRA List of charities: the open copy on open.canada.ca is the 2011 return year (84,667 identification rows, the file last modified 2021-11-18) — a fifteen-year-old list is not served as the current register"
       ],
       "price": {
         "currency_code": "CAD",
@@ -303,7 +359,16 @@
         "fx_valuation_date": "2026-09-28"
       },
       "verified_on": "2026-10-10",
-      "status": "live"
+      "status": "live",
+      "store_load": null,
+      "depth": {
+        "items": 6,
+        "rung": "mid",
+        "price_usd": 0.15,
+        "base_units": "150000",
+        "on_sale": true,
+        "note": "6 verifiable items — the mid rung, US$0.15 a check."
+      }
     },
     {
       "code": "LV",
@@ -343,7 +408,16 @@
         "fx_valuation_date": "2026-09-28"
       },
       "verified_on": "2026-10-10",
-      "status": "live"
+      "status": "live",
+      "store_load": null,
+      "depth": {
+        "items": 5,
+        "rung": "mid",
+        "price_usd": 0.15,
+        "base_units": "150000",
+        "on_sale": true,
+        "note": "5 verifiable items — the mid rung, US$0.15 a check."
+      }
     },
     {
       "code": "SG",
@@ -381,7 +455,16 @@
         "fx_valuation_date": "2026-09-28"
       },
       "verified_on": "2026-10-10",
-      "status": "live"
+      "status": "live",
+      "store_load": null,
+      "depth": {
+        "items": 4,
+        "rung": "entry",
+        "price_usd": 0.1,
+        "base_units": "100000",
+        "on_sale": true,
+        "note": "4 verifiable items — the entry rung, US$0.10 a check."
+      }
     },
     {
       "code": "EE",
@@ -423,7 +506,16 @@
         "fx_valuation_date": "2026-09-28"
       },
       "verified_on": "2026-10-10",
-      "status": "live"
+      "status": "live",
+      "store_load": "Its register is answered from an out-of-band store, and that store holds a loaded generation RIGHT NOW, so this register can answer an absence as well as a presence, dated to the extract it was built from.",
+      "depth": {
+        "items": 6,
+        "rung": "mid",
+        "price_usd": 0.15,
+        "base_units": "150000",
+        "on_sale": true,
+        "note": "6 verifiable items — the mid rung, US$0.15 a check."
+      }
     },
     {
       "code": "CO",
@@ -448,7 +540,8 @@
         "the society type and the legal-organisation form",
         "the primary and secondary CIIU economic-activity codes",
         "the registration and last-renewal dates",
-        "the legal representative's NAME (the person who legally represents the entity)"
+        "the legal representative's NAME (the person who legally represents the entity)",
+        "a lookup by NAME (the register's own text search) or by NIT in its written form with the check digit — the two shapes a Colombian buyer actually holds; no other door in the CDP index lists a Colombian company lookup at all"
       ],
       "not_verifiable": [
         "the legal representative's identity document type and number — present in the source; deliberately NOT read or carried",
@@ -466,7 +559,16 @@
         "fx_valuation_date": "2026-10-09"
       },
       "verified_on": "2026-10-10",
-      "status": "live"
+      "status": "live",
+      "store_load": null,
+      "depth": {
+        "items": 8,
+        "rung": "deep",
+        "price_usd": 0.2,
+        "base_units": "200000",
+        "on_sale": true,
+        "note": "8 verifiable items — the deep rung, US$0.20 a check."
+      }
     },
     {
       "code": "IL",
@@ -508,7 +610,16 @@
         "fx_valuation_date": "2026-10-09"
       },
       "verified_on": "2026-10-10",
-      "status": "live"
+      "status": "live",
+      "store_load": null,
+      "depth": {
+        "items": 7,
+        "rung": "deep",
+        "price_usd": 0.2,
+        "base_units": "200000",
+        "on_sale": true,
+        "note": "7 verifiable items — the deep rung, US$0.20 a check."
+      }
     },
     {
       "code": "GB",
@@ -519,9 +630,9 @@
       "ownership_note": "Ownership stops at persons with significant control (PSC), not true beneficial ownership; and the register covers Great Britain only.",
       "registers": [
         {
-          "name": "Companies House (UK public register, daily snapshot)",
+          "name": "Companies House (UK public register, monthly bulk snapshot, refreshed within 5 working days of month end and compiled to the end of the previous month)",
           "url": "https://www.gov.uk/government/organisations/companies-house",
-          "licence": "OGL (public-register data)",
+          "licence": "Companies House register information is made available by virtue of approvals issued under section 47 of the Copyright, Designs and Patents Act 1988 and Schedule 1 of the Database Regulations (SI 1997/3032). Companies House imposes no rules or requirements on how the public register is used; the register is not licensed under the OGL (which covers Companies House's other material). Credit: Companies House.",
           "source_name": "uk_snapshot",
           "code_path": "src/companies-house.ts"
         }
@@ -536,7 +647,8 @@
       "not_verifiable": [
         "Northern Ireland companies (a separate register we do not touch)",
         "true beneficial ownership beyond PSC",
-        "parsed accounts figures (we hold the filing index, not the figures)"
+        "parsed accounts figures (we hold the filing index, not the figures)",
+        "the Register of Charities (Charity Commission for England and Wales): published under OGL v3, but its public extract is a 54 MiB ZIP of JSON-Lines — it needs an out-of-band ingest into a store, which this deployment does not yet hold"
       ],
       "price": {
         "currency_code": "GBP",
@@ -547,7 +659,16 @@
         "fx_valuation_date": "2026-09-28"
       },
       "verified_on": "2026-10-10",
-      "status": "live"
+      "status": "live",
+      "store_load": "Its register is answered from an out-of-band store, and that store holds a loaded generation RIGHT NOW, so this register can answer an absence as well as a presence, dated to the extract it was built from.",
+      "depth": {
+        "items": 5,
+        "rung": "mid",
+        "price_usd": 0.15,
+        "base_units": "150000",
+        "on_sale": true,
+        "note": "5 verifiable items — the mid rung, US$0.15 a check."
+      }
     },
     {
       "code": "AU",
@@ -555,7 +676,7 @@
       "currency": "AUD",
       "requires_key": false,
       "ownership": "closed",
-      "ownership_note": "Directors and shareholding sit with ASIC, which has no open API; ownership is not verifiable from open data.",
+      "ownership_note": "Directors, secretaries, shareholding and beneficial ownership are NOT in any ASIC open data: ASIC's weekly Company Register extract publishes company records only, and legislation prescribes the information ASIC is allowed to disclose. Ownership is therefore not verifiable from open data — named so it is never read as a gap we simply have not filled.",
       "registers": [
         {
           "name": "Australian Business Register (ABN Lookup)",
@@ -563,16 +684,54 @@
           "licence": "ABR terms (public data)",
           "source_name": "abr",
           "code_path": "src/abr.ts"
+        },
+        {
+          "name": "ASIC Company Register — Company Dataset (weekly extract, via data.gov.au)",
+          "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "licence": "ASIC – Company Dataset, © Australian Securities and Investments Commission, sourced from data.gov.au, used under Creative Commons Attribution 3.0 Australia — http://creativecommons.org/licenses/by/3.0/au/",
+          "source_name": "asic_register",
+          "code_path": "src/asic.ts"
+        },
+        {
+          "name": "ASIC open registers — Business Names, AFS licensees and authorised representatives, credit licensees and credit representatives, financial advisers, registered auditors, liquidators, SMSF auditors, and Banned and Disqualified ORGANISATIONS (via data.gov.au)",
+          "url": "https://data.gov.au/data/api/3/action/package_search?q=ASIC",
+          "licence": "ASIC – Company Dataset, © Australian Securities and Investments Commission, sourced from data.gov.au, used under Creative Commons Attribution 3.0 Australia — http://creativecommons.org/licenses/by/3.0/au/",
+          "source_name": "asic_open_register",
+          "code_path": "src/asic-open.ts"
+        },
+        {
+          "name": "ACNC Register of Australian charities (via data.gov.au)",
+          "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594",
+          "licence": "ACNC Register of Australian charities, © Australian Charities and Not-for-profits Commission, sourced from data.gov.au, used under Creative Commons Attribution 3.0 Australia — http://creativecommons.org/licenses/by/3.0/au/",
+          "source_name": "acnc_register",
+          "code_path": "src/charity.ts"
         }
       ],
       "verifiable": [
         "ABN status",
         "entity name and business names",
-        "GST registration"
+        "GST registration",
+        "ASIC company records for one ACN: the register's own status (REGD, DRGD, EXAD, SOFF and the rest, in ASIC's own codes), company type, class and sub-class",
+        "date of registration, and the date of deregistration where ASIC carries one",
+        "prior company names, and the current name's start date, exactly as ASIC publishes them on the name rows",
+        "Previous State of Registration and State Registration number, where ASIC carries them",
+        "ASIC's own recorded ABN for the company",
+        "the date of the extract every ASIC figure is held at — ASIC publishes it weekly, every Tuesday",
+        "Australian business names held on an ABN (Business Names Dataset), with their status and registration dates",
+        "an Australian financial services licence and its conditions (AFS Licensee Dataset), read by licence number or the licensee's ABN/ACN",
+        "an Australian credit licence (Credit Licensee Dataset), read by licence number or the licensee's ABN/ACN",
+        "whether an organisation is banned or disqualified by ASIC (Banned and Disqualified ORGANISATIONS Dataset), read by ACN",
+        "the registration status and dates of AFS authorised representatives, credit representatives, financial advisers, registered auditors, liquidators and SMSF auditors, read by identifier — carried as registration facts, with no person's name or address",
+        "whether an ABN belongs to a registered charity on the ACNC register, with its legal name, other names, town/state/postcode, registration date, size and financial year end"
       ],
       "not_verifiable": [
-        "directors (ASIC, no open API)",
-        "shareholding (ASIC, no open API)"
+        "directors and secretaries — NOT in ASIC's open data at all",
+        "shareholding and beneficial ownership — not published in ASIC's open data (legislation limits what ASIC may disclose)",
+        "any address — ASIC's company extract carries no address column of any kind",
+        "the LIVE register — ASIC's open extract is a weekly snapshot, so it may be up to about seven days behind, and ASIC's own register can change after that snapshot (ASIC Connect is its real-time, paid view, which we do not read)",
+        "financial statements, charges, share capital and document history — not in the open extract",
+        "natural persons — ASIC's Banned and Disqualified PERSONS dataset carries names and addresses and is deliberately NOT read; no persons door is built over it, and the individual registers above carry registration facts only, never a person's name or address",
+        "ASIC's extract BY COMPANY NAME — this door reads it by ACN only; the extract's name search is not wired"
       ],
       "price": {
         "currency_code": "AUD",
@@ -582,8 +741,17 @@
         "fx_basis": "ECB euro foreign exchange reference rates",
         "fx_valuation_date": "2026-09-28"
       },
-      "verified_on": "2026-10-10",
-      "status": "live"
+      "verified_on": "2026-10-15",
+      "status": "live",
+      "store_load": null,
+      "depth": {
+        "items": 15,
+        "rung": "australia",
+        "price_usd": 0.25,
+        "base_units": "250000",
+        "on_sale": true,
+        "note": "15 verifiable items — the australia rung, US$0.25 a check."
+      }
     },
     {
       "code": "US",
@@ -617,7 +785,284 @@
         "fx_valuation_date": "2026-09-28"
       },
       "verified_on": "2026-10-10",
-      "status": "live"
+      "status": "live",
+      "store_load": null,
+      "depth": {
+        "items": 1,
+        "rung": "entry",
+        "price_usd": 0.1,
+        "base_units": "100000",
+        "on_sale": true,
+        "note": "1 verifiable item — the entry rung, US$0.10 a check."
+      }
+    },
+    {
+      "code": "AR",
+      "jurisdiction": "Argentina",
+      "currency": "ARS",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Ownership is not public, and this register carries no owners at all: the Registro Nacional de Sociedades publishes the legal person — its CUIT, registered name, society type, addresses and activity — and no directors, officers, shareholders or beneficial owners in any column. Those are not published in this dataset; we do not read any ownership register for Argentina.",
+      "registers": [
+        {
+          "name": "Registro Nacional de Sociedades (RNSC) — Ministerio de Justicia, from the Padrón Federal de Personas Jurídicas de la AFIP/ARCA, Law 26.047 (monthly extract)",
+          "url": "https://datos.jus.gob.ar/dataset/registro-nacional-de-sociedades",
+          "licence": "Ministerio de Justicia. Subsecretaría de Asuntos Registrales. Dirección del Registro Nacional de Sociedades y Concursos y Quiebras — Fuente: Padrón Federal de Personas Jurídicas de la AFIP. Registro Nacional de Sociedades — datos.jus.gob.ar, published under Creative Commons Attribution 4.0 International (CC BY 4.0), https://creativecommons.org/licenses/by/4.0/.",
+          "source_name": "ar_register",
+          "code_path": "src/argentina.ts"
+        }
+      ],
+      "verifiable": [
+        "legal-person identity: the CUIT (eleven digits, with its check digit) and the registered name (razón social), as the register publishes them",
+        "the society type (tipo_societario) — e.g. SOCIEDAD ANONIMA, SOCIEDAD DE RESPONSABILIDAD LIMITADA, COOPERATIVA, ASOCIACION CIVIL",
+        "the date the social contract was executed, and the register's own date of the last update to the record",
+        "the fiscal (tax) address: province, locality, street, number, floor, apartment, postal code",
+        "the legal (registered) address, in the same eight parts",
+        "the register's OWN statement about each address (estado_domicilio), carried exactly as published — DECLARADO, CONFIRMADO, NO CONFIRMADO, INEXISTENTE - DESCONOCIDO and the rest",
+        "the registered activity code and description, when the register carries one (blank in 881 of the 998 sample rows)",
+        "a lookup by CUIT, or by exact registered name — the two shapes a buyer actually holds"
+      ],
+      "not_verifiable": [
+        "directors, officers, shareholders and beneficial owners — NOT in this register at all (no column of the file carries them)",
+        "financial statements — not published in this dataset",
+        "the LIVE register — this is the publisher's monthly extract, so a company registered after the extract date may not appear (the Registro's real-time view is a separate, per-query service we do not read)",
+        "the IGJ 'Autoridades de entidades' officers file on the same portal — a DIFFERENT register (Buenos Aires City's Inspección General de Justicia), deliberately NOT read",
+        "natural persons — the register is the LEGAL-persons register under Law 26.047; no natural-person record is carried",
+        "the publisher's portal SEARCH (the CKAN datastore this repo reads live for Latvia, Ireland and ASIC) — every resource on this dataset reports no datastore index, and the one datastore that does answer is the publisher's own 1,000-row Muestreo sample, whose index is two years stale. A sample is not the register, so this slice answers from the published monthly extract loaded out of band, and never from that sample",
+        "an ANSWER about today's incorporation status of a company registered after the loaded extract's own date — the extract date rides on every answer, and the staleness window is stated"
+      ],
+      "price": {
+        "currency_code": "ARS",
+        "check_entity_display": "151.46 ARS",
+        "check_figure_display": "75.73 ARS",
+        "usd_buys": 1514.5655,
+        "fx_basis": "open.er-api.com (ExchangeRate-API) daily rates",
+        "fx_valuation_date": "2026-10-15"
+      },
+      "verified_on": "2026-10-15",
+      "status": "live",
+      "store_load": "Its register is answered from an out-of-band store, and that store holds a loaded generation RIGHT NOW, so this register can answer an absence as well as a presence, dated to the extract it was built from.",
+      "depth": {
+        "items": 8,
+        "rung": "deep",
+        "price_usd": 0.2,
+        "base_units": "200000",
+        "on_sale": true,
+        "note": "8 verifiable items — the deep rung, US$0.20 a check."
+      }
+    },
+    {
+      "code": "CL",
+      "jurisdiction": "Chile",
+      "currency": "CLP",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Ownership is not public, and this register carries no people at all: the Registro de Empresas y Sociedades publishes the legal person — its RUT, razón social, the three dates it records, two address pairs, the society code, the act type and the subscribed capital — and no directors, officers, shareholders or beneficial owners in any column. It also publishes NO STATUS COLUMN, so nothing here says whether a company still exists.",
+      "registers": [
+        {
+          "name": "Registro de Empresas y Sociedades (RES) — Ley 20.659, 2026 extract cut off 31 August 2026 (Subsecretaría de Economía y Empresas de Menor Tamaño), via datos.gob.cl",
+          "url": "https://datos.gob.cl/dataset/363edd60-4919-4ff1-b85f-f8e14d61285a",
+          "licence": "Registro de Empresas y Sociedades — Ministerio de Economía, Fomento y Turismo (Subsecretaría de Economía y Empresas de Menor Tamaño), Ley 20.659, published at datos.gob.cl under Creative Commons Attribution (CC BY), extract cut off 31 August 2026.",
+          "source_name": "cl_register",
+          "code_path": "src/chile.ts"
+        }
+      ],
+      "verifiable": [
+        "company identity: the RUT (eight digits with its modulus-11 check digit), the razón social, and the publisher's own row id",
+        "that the company was constituted under the Ley 20.659 simplified regime, with the extract's cut-off stated on every answer",
+        "the three dates the register carries: first signature, registration (last signature) and SII approval",
+        "the society code as published (SpA, EIRL, SRL, SA, SCC, SCS, SCA) and the act type",
+        "the TAX commune and region, and the SOCIAL (registered) commune and region — two address pairs the register carries separately",
+        "the subscribed capital in Chilean pesos",
+        "a lookup by written RUT (e.g. 78325555-3) or by name, from the register's own text search"
+      ],
+      "not_verifiable": [
+        "whether the company still EXISTS — this register publishes NO STATUS COLUMN at all, so no answer from it can imply that a company is current",
+        "directors, officers, shareholders and beneficial owners — not published in this dataset in any column",
+        "financial statements beyond the subscribed capital figure — not published in this dataset",
+        "firms outside the Ley 20.659 simplified regime (for example a company constituted by notarial deed outside RES) — NOT COVERED, not 'not found'",
+        "every year except 2026: the dataset publishes one resource per year from 2013, and this slice reads the 2026 extract (cut off 31 August 2026), so a company constituted in another year is NOT COVERED here — a miss is never reported as 'not found'",
+        "a RUT written with a seven-digit body — this slice reads the eight-digit-body shape the 2026 extract carries, so a seven-digit-body RUT is not the shape the door recognises",
+        "the live register — this is the publisher's extract, dated to its cut-off, not the Registro's real-time view"
+      ],
+      "price": {
+        "currency_code": "CLP",
+        "check_entity_display": "98 CLP",
+        "check_figure_display": "49 CLP",
+        "usd_buys": 981.251342,
+        "fx_basis": "open.er-api.com (ExchangeRate-API) daily rates",
+        "fx_valuation_date": "2026-10-21"
+      },
+      "verified_on": "2026-10-22",
+      "status": "live",
+      "store_load": null,
+      "depth": {
+        "items": 7,
+        "rung": "deep",
+        "price_usd": 0.2,
+        "base_units": "200000",
+        "on_sale": true,
+        "note": "7 verifiable items — the deep rung, US$0.20 a check."
+      }
+    },
+    {
+      "code": "ES",
+      "jurisdiction": "Spain",
+      "currency": "EUR",
+      "requires_key": false,
+      "ownership": "partial",
+      "ownership_note": "Ownership is PARTIAL, in a way specific to this source. BORME publishes a company's ACTS: where a company has declared itself unipersonal, the gazette names its SOLE SHAREHOLDER (`Socio único: …`), and this slice returns that name with the act and the day it was published. What it does not publish is a cap table: no percentages, no shareholder register, and no beneficial owners. So for a single-member company the gazette names one owner, and for every other company it names none.",
+      "registers": [
+        {
+          "name": "Boletín Oficial del Registro Mercantil (BORME) — Boletín Oficial del Estado (BOE), official gazette of the Spanish commercial registers, sections A (acts) and B (other acts)",
+          "url": "https://www.boe.es/datosabiertos/",
+          "licence": "Boletín Oficial del Registro Mercantil (BORME) — Boletín Oficial del Estado (BOE), published as open data at boe.es (keyless API), acts published in the declared window.",
+          "source_name": "es_register",
+          "code_path": "src/spain.ts"
+        }
+      ],
+      "verifiable": [
+        "company identity as the gazette prints it: the registered name, and the register's OWN key for it — the hoja registral, e.g. S 8, H A 208641, I/A 1 (14.10.26)",
+        "the act(s) published: Constitución, Ampliación/Reducción de capital, Nombramientos, Ceses/Dimisiones, Revocaciones, Reelecciones, Declaración/Pérdida de unipersonalidad, Cambio de domicilio/objeto/denominación, Disolución, Extinción, Fusión, Escisión, Transformación, situación concursal and the rest of BORME's act vocabulary",
+        "the publication date of each act, from the gazette's own file metadata",
+        "the commencement of operations and the registered address stated in the act",
+        "the capital stated in the act, and the resulting subscribed capital of an increase or reduction (in euros, parsed from the Spanish figure)",
+        "the officers named in the act, with BORME's own role (e.g. Adm. Mancom. — joint administrators, Adm. Unico — sole administrator, Consejero, Apoderado, Liquidador)",
+        "a SOLE SHAREHOLDER, where a unipersonalidad declaration named one",
+        "the company's whole timeline of published acts inside the declared window",
+        "a lookup by registered name — the only key this source has"
+      ],
+      "not_verifiable": [
+        "ANY TAX IDENTIFIER (CIF/NIF) — BORME publishes none, so Spain is a NAME-based door: an identifier lookup is REFUSED with that reason, and no identifier is ever invented, derived or confirmed here",
+        "the register's current status — BORME publishes ACTS, not status: a 'Disolución' says one was published, and the ABSENCE of an act says nothing about whether a company still exists",
+        "days outside the declared window — the dataset covers the published days the manifest names, so a company whose only act falls outside them is NOT COVERED, never 'not found'",
+        "BORME's Sección Segunda (section C, anuncios y avisos legales) — per-announcement prose rather than register acts, and its prose mentions a CIF only incidentally; not read, and not treated as an identifier source",
+        "full shareholdings, percentages and beneficial owners — the gazette publishes a sole shareholder only where unipersonalidad was declared",
+        "annual accounts and financial statements — BORME's acts carry a capital figure, not filings"
+      ],
+      "price": {
+        "currency_code": "EUR",
+        "check_entity_display": "0.09 EUR",
+        "check_figure_display": "0.04 EUR",
+        "usd_buys": 1.1636,
+        "fx_basis": "ECB euro foreign exchange reference rates",
+        "fx_valuation_date": "2026-09-28"
+      },
+      "verified_on": "2026-10-22",
+      "status": "live",
+      "store_load": "Its register is answered from an out-of-band store, and that store holds a loaded generation RIGHT NOW, so this register can answer an absence as well as a presence, dated to the extract it was built from.",
+      "depth": {
+        "items": 9,
+        "rung": "deep",
+        "price_usd": 0.2,
+        "base_units": "200000",
+        "on_sale": true,
+        "note": "9 verifiable items — the deep rung, US$0.20 a check."
+      }
+    },
+    {
+      "code": "CH",
+      "jurisdiction": "Switzerland",
+      "currency": "CHF",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Ownership is not public in this dataset, and it carries no people at all. Zefix is the CENTRAL BUSINESS NAME INDEX: it publishes the entity's name in each official language, its legal form, its UID and CH-ID, its registered address, its municipality and canton. The directors, the share capital and the shareholdings are filings made to the CANTONAL commercial registers and are not in this dataset in any field. So no owner, officer or shareholder can appear in an answer from this slice — and the absence of a person here is not evidence about who runs a company.",
+      "registers": [
+        {
+          "name": "Zefix — Central Business Name Index (Zentraler Firmenindex), Federal Commercial Registry Office (FCRO/EHRA), published as Linked Data on LINDAS",
+          "url": "https://opendata.swiss/en/dataset/zefix-zentraler-firmenindex",
+          "licence": "Zefix — Central Business Name Index (Zentraler Firmenindex), Federal Commercial Registry Office (FCRO/EHRA), Swiss Confederation, published as Linked Data on LINDAS (lindas.admin.ch). Licence: OGD Open use — must provide the source.",
+          "source_name": "che_register",
+          "code_path": "src/switzerland.ts"
+        }
+      ],
+      "verifiable": [
+        "company identity as the register publishes it: every official-language name of the entity (Nestlé S.A. / Nestlé AG / Nestlé Ltd. are ONE entity), the register's own id and its IRI",
+        "the SWISS UID (CHE-123.456.789) and the CH-ID (the old CH number), both exactly as the register publishes them — the UID only when its own modulus-11 check digit agrees",
+        "the legal form, as the publisher's own eCH-0097 code AND its own German label (Aktiengesellschaft, Gesellschaft mit beschränkter Haftung GMBH / SARL, Verein, Stiftung, Genossenschaft and the rest of the 38-form vocabulary)",
+        "the registered address (street, postal code, locality), the municipality and the canton",
+        "a lookup by registered name, in any official language, or by Swiss UID",
+        "that the entity is CURRENTLY ENTERED in the commercial register — that is what this core data holds"
+      ],
+      "not_verifiable": [
+        "directors, officers, shareholders and beneficial owners — Zefix is a name index; those are cantonal filings and appear in no field of this dataset",
+        "share capital, financial statements and annual accounts — not published in this dataset",
+        "the entity's STATUS — the core data carries no status field, so nothing here says whether an entity is trading, dormant or in liquidation (an entity whose NAME carries 'in Liquidation' says so in its name, and is still listed)",
+        "an entity that has been STRUCK OFF — deleted entries are dropped from the core data, so absence is NOT COVERED, never proof that a company never existed",
+        "a sole proprietorship below the registration threshold — it need not be entered in the commercial register at all, so it is NOT COVERED here",
+        "a CH-ID used as an identifier — it is published, but it is not a UID and this slice does not answer it as one"
+      ],
+      "price": {
+        "currency_code": "CHF",
+        "check_entity_display": "0.08 CHF",
+        "check_figure_display": "0.04 CHF",
+        "usd_buys": 1.1636,
+        "fx_basis": "ECB euro foreign exchange reference rates",
+        "fx_valuation_date": "2026-09-28"
+      },
+      "verified_on": "2026-10-22",
+      "status": "live",
+      "store_load": "Its register is answered from an out-of-band store, and that store holds a loaded generation RIGHT NOW, so this register can answer an absence as well as a presence, dated to the extract it was built from.",
+      "depth": {
+        "items": 6,
+        "rung": "mid",
+        "price_usd": 0.15,
+        "base_units": "150000",
+        "on_sale": true,
+        "note": "6 verifiable items — the mid rung, US$0.15 a check."
+      }
+    },
+    {
+      "code": "SE",
+      "jurisdiction": "Sweden",
+      "currency": "SEK",
+      "requires_key": false,
+      "ownership": "closed",
+      "ownership_note": "Ownership is not in this dataset, and it carries no people at all. The Bolagsverket basic company data file publishes the organisation number and its type, every registered name, the organisation form, the registration date, any deregistration date and reason, any ongoing winding-up or restructuring proceeding, an activity description and the registered postal address. The board, the officers, the shareholders and the share capital are separate Bolagsverket products and appear in no field of this file. So no owner, officer or shareholder can appear in an answer from this slice — and the absence of a person here is not evidence about who runs a company.",
+      "registers": [
+        {
+          "name": "Bolagsverket — grunddata om företag (Swedish Companies Registration Office), bulk file published as an EU high-value dataset",
+          "url": "https://bolagsverket.se/apierochoppnadata/hamtaforetagsinformation/nedladdningsbarafiler.2517.html",
+          "licence": "Bolagsverket — grunddata om företag (high-value dataset), Swedish Companies Registration Office, bulk file bolagsverket_bulkfil.zip.",
+          "source_name": "se_register",
+          "code_path": "src/sweden.ts"
+        }
+      ],
+      "verifiable": [
+        "company identity as the register publishes it: the registered name, every additional registered name, and each name's own type and registration date",
+        "the SWEDISH ORGANISATION NUMBER (XXXXXX-XXXX) exactly as the register publishes it — only when its own Luhn check digit agrees — and the identity type the publisher assigns it",
+        "the organisation form, as the publisher's own code AND its own Swedish label (Aktiebolag, Ekonomisk förening, Bostadsrättsförening, Handelsbolag, Stiftelse and the rest of the 29-form list)",
+        "the registration date, and — where the register has deregistered the organisation — the deregistration date and its reason, from the publisher's own 17-reason list",
+        "any ongoing winding-up or restructuring proceeding, with its own start date, from the publisher's own 11-code list",
+        "the activity description and the registered postal address (street, care-of, postal code, city, country)",
+        "a lookup by registered name, or by Swedish organisation number"
+      ],
+      "not_verifiable": [
+        "directors, board members, shareholders and beneficial owners — separate Bolagsverket products, and in no field of this file",
+        "share capital, financial statements and annual accounts — not published in this file",
+        "whether a company is TRADING or solvent — the file carries no trading status and no credit information; 'no deregistration recorded' is not a statement that the company is active",
+        "a sole trader identified by a PERSONAL identity number — this slice does not store, index or publish a personal identity number, so such a business is answerable by name only",
+        "a business that was never registered, or is registered with another authority — it is not in this file, so absence is NOT COVERED, never proof that a company never existed"
+      ],
+      "price": {
+        "currency_code": "SEK",
+        "check_entity_display": "1.00 SEK",
+        "check_figure_display": "0.50 SEK",
+        "usd_buys": 9.9446,
+        "fx_basis": "ECB euro foreign exchange reference rates",
+        "fx_valuation_date": "2026-10-23"
+      },
+      "verified_on": "2026-10-24",
+      "status": "data_pending",
+      "store_load": "Its register is answered from an out-of-band store that holds NO loaded generation right now (se_register), so it cannot answer this register today — it is named NOT CONSULTED and answers `unknown`, never `not_found`. It is therefore NOT counted as live.",
+      "depth": {
+        "items": 7,
+        "rung": "deep",
+        "price_usd": null,
+        "base_units": null,
+        "on_sale": false,
+        "note": "SE is NOT on sale while it reads `data_pending`: its register is wired but cannot answer today, so a call returns `unknown` — and an unknown is not charged for. The depth band (7 verifiable items, deep) is published; the price is withheld, and the door refuses a call here rather than quoting one, until the register loads."
+      }
     }
   ],
   "global_registers": [
@@ -630,15 +1075,148 @@
       "note": "Global legal-entity identifiers and Level 2 relationships. Consulted for identity and ownership edges wherever an entity has an LEI."
     }
   ],
+  "depth_ladder": {
+    "applies_to": "check_entity",
+    "applies_to_doors": [
+      "POST /entity",
+      "GET /entity",
+      "HEAD /entity"
+    ],
+    "unit": "one entity check for one jurisdiction",
+    "currency": "USDC",
+    "depth_rule": "Depth is the number of items that jurisdiction's own coverage row lists as verifiable (the `verifiable` array on /coverage.json). The rung is chosen from that count.",
+    "jurisdiction_rule": "Name the jurisdiction to be quoted its rung (`?jurisdiction=AU`, or `jurisdiction` in the body). With none named, the country is read from the identifier's own shape, and the 402 says which was used.",
+    "not_on_sale_rule": "A jurisdiction whose register cannot answer today (status `data_pending`) is NOT on sale: it quotes no price and no rung, the door REFUSES the call rather than quoting one, and nothing is charged.",
+    "mcp_note": "The MCP tool `check_entity` is sold at the entry rung (US$0.10) whatever the jurisdiction's depth: the MCP gate prices a tool rather than an argument. The HTTP door quotes and settles the rung, and refuses a call that resolves deeper than the amount offered.",
+    "rungs": [
+      {
+        "name": "entry",
+        "min_items": 1,
+        "max_items": 4,
+        "price_usd": 0.1,
+        "base_units": "100000",
+        "band": "1 to 4 verifiable items — identity and status from one register"
+      },
+      {
+        "name": "mid",
+        "min_items": 5,
+        "max_items": 6,
+        "price_usd": 0.15,
+        "base_units": "150000",
+        "band": "5 to 6 verifiable items — identity, status, structure or a second register"
+      },
+      {
+        "name": "deep",
+        "min_items": 7,
+        "max_items": 9,
+        "price_usd": 0.2,
+        "base_units": "200000",
+        "band": "7 to 9 verifiable items — the register plus the datasets around it"
+      },
+      {
+        "name": "australia",
+        "min_items": 10,
+        "max_items": null,
+        "price_usd": 0.25,
+        "base_units": "250000",
+        "band": "10 or more verifiable items — Australia at 15 today (ASIC plus four open datasets plus the charity register)"
+      }
+    ]
+  },
+  "sanctions_registers": {
+    "door": "check_sanctions",
+    "advertised": [
+      "ofac",
+      "un",
+      "eu",
+      "uk",
+      "dfat"
+    ],
+    "consulted": [
+      "ofac",
+      "un",
+      "eu",
+      "uk"
+    ],
+    "not_consulted": [
+      "dfat"
+    ],
+    "complete": false,
+    "lists": [
+      {
+        "source": "ofac",
+        "list": "OFAC SDN and Consolidated Non-SDN",
+        "families": [
+          "sdn",
+          "cons"
+        ],
+        "generation": 11,
+        "retrieved_at": "2026-10-28T04:07:24.633Z",
+        "age_days": 0.3,
+        "state": "consulted",
+        "reason": null
+      },
+      {
+        "source": "un",
+        "list": "UN Security Council Consolidated",
+        "families": [
+          "un"
+        ],
+        "generation": 11,
+        "retrieved_at": "2026-10-28T04:07:24.633Z",
+        "age_days": 0.3,
+        "state": "consulted",
+        "reason": null
+      },
+      {
+        "source": "eu",
+        "list": "EU Financial Sanctions (FSF)",
+        "families": [
+          "eu"
+        ],
+        "generation": 10,
+        "retrieved_at": "2026-10-28T04:07:24.633Z",
+        "age_days": 0.3,
+        "state": "consulted",
+        "reason": null
+      },
+      {
+        "source": "uk",
+        "list": "UK Sanctions List (FCDO)",
+        "families": [
+          "uk"
+        ],
+        "generation": 11,
+        "retrieved_at": "2026-10-28T04:07:24.633Z",
+        "age_days": 0.3,
+        "state": "consulted",
+        "reason": null
+      },
+      {
+        "source": "dfat",
+        "list": "Australian Consolidated List (DFAT)",
+        "families": [
+          "dfat"
+        ],
+        "generation": null,
+        "retrieved_at": null,
+        "age_days": null,
+        "state": "not_consulted",
+        "reason": "the store holds no generation for this list"
+      }
+    ],
+    "note": "1 of 5 advertised lists are NOT consulted: Australian Consolidated List (DFAT) (the store holds no generation for this list). Every answer names each of them as not consulted, and an absence verdict that depended on one is unknown rather than a clean result — the check is charged for what it read, not for what it did not."
+  },
   "ownership_summary": "Ownership data — who ultimately owns or controls a company — is CLOSED in nearly every country we cover. We can honestly verify that a company exists, who runs it (where the register publishes it), and its status; in most of Europe we cannot yet verify who ultimately owns it. Each jurisdiction below says which side of that line it is on.",
   "charging": {
-    "live_rail_unchanged": true,
+    "entity_priced_by_depth": true,
     "live_amounts": {
-      "check_entity": "US$0.10",
+      "check_entity": "US$0.10 (entry rung) to US$0.25 (10+ verifiable items)",
       "check_figure": "US$0.05"
     },
-    "note": "The live charging rail is UNCHANGED: the widened entity door settles at US$0.10 and the figure door at US$0.05, on the x402 and prepaid-pack rails. The local-currency figures on this surface are DISPLAYED pricing only.",
-    "how_local_charging_would_slot_in": "Per-jurisdiction pricing would slot in WITHOUT touching the live amount by adding a local-price entry keyed by the query's jurisdiction alongside the existing US dollar amount: the door would look up a dated local price (the same value shown here), quote it, and derive the USDC amount the rail settles from the dated FX rate, exactly as the entity FILE door already derives its amount from a pence rung. The US$0.10 amount stays the source of truth until Dan decides otherwise; nothing here changes what settles today."
+    "note": "The entity check is priced by DEPTH: US$0.10 where a jurisdiction publishes 1-4 verifiable items, US$0.15 at 5-6, US$0.20 at 7-9 and US$0.25 at 10 or more (Australia, at 15). The depth and its price are printed side by side on every row above, on /pricing.md and on /health, and the door quotes the rung in its 402 BEFORE payment. A jurisdiction that cannot answer today is NOT on sale and quotes no price at all: a call naming one is refused with no amount and no payment requirement, because a call there answers `unknown` and an unknown is not charged for. The figure door is US$0.05 flat.",
+    "how_it_is_charged": "POST /entity quotes the rung of the jurisdiction the caller NAMES (`?jurisdiction=AU`, or `jurisdiction` in the body); with none named, the country is read from the identifier's own shape (an ABN is Australia, a SIREN France, and so on), and the 402 says which of the two it used. GET and HEAD on the same path quote the same rung. If the call resolves to a different depth, the door answers with a 402 naming the right rung and settles NOTHING for the refused attempt — nothing is ever charged above the rung the answer reaches.",
+    "pack_rail": "Prepaid pack credits are unchanged: one credit buys one entity call whatever its depth. That is the pack rail's existing discount, and /pricing.md states it."
   },
   "register_sources": [
     "gleif",
@@ -656,6 +1234,14 @@
     "sg_register",
     "ee_register",
     "co_register",
-    "il_register"
+    "il_register",
+    "asic_register",
+    "asic_open_register",
+    "acnc_register",
+    "ar_register",
+    "cl_register",
+    "es_register",
+    "che_register",
+    "se_register"
   ]
 }
